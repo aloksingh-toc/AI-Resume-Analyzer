@@ -57,7 +57,7 @@ export default function App() {
       {/* Header */}
       <header style={styles.header}>
         <div style={styles.logo}>
-          <span style={styles.logoIcon}>🤖</span>
+          <span style={styles.logoIcon}>AI</span>
           <span style={styles.logoText}>AI Resume Analyzer</span>
         </div>
         <nav style={styles.nav}>
@@ -93,7 +93,7 @@ export default function App() {
             <UploadSection onAnalyze={handleAnalyze} loading={loading} />
             {error && (
               <div style={styles.errorBox}>
-                <span>⚠️</span> {error}
+                {error}
               </div>
             )}
             {loading && (
@@ -137,7 +137,7 @@ export default function App() {
 
       {/* Footer */}
       <footer style={styles.footer}>
-        <p>Built with ☕ Java · Spring Boot · React · OpenAI API · MySQL</p>
+        <p>Built with Java · Spring Boot · React · Groq AI · Oracle 23ai</p>
       </footer>
 
       <style>{`

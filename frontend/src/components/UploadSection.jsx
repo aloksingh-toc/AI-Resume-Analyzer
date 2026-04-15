@@ -40,7 +40,7 @@ export default function UploadSection({ onAnalyze, loading }) {
   return (
     <div style={styles.container}>
       <div style={styles.header}>
-        <div style={styles.iconWrap}>📄</div>
+        <div style={styles.iconWrap}>PDF</div>
         <h2 style={styles.title}>Upload Your Resume</h2>
         <p style={styles.subtitle}>
           Get an AI-powered score and actionable feedback in seconds
@@ -59,7 +59,7 @@ export default function UploadSection({ onAnalyze, loading }) {
         <input {...getInputProps()} />
         {selectedFile ? (
           <div style={styles.filePreview}>
-            <span style={styles.fileIcon}>📎</span>
+            <span style={styles.fileIcon}>[ PDF ]</span>
             <div>
               <p style={styles.fileName}>{selectedFile.name}</p>
               <p style={styles.fileSize}>{(selectedFile.size / 1024).toFixed(1)} KB</p>
@@ -67,7 +67,7 @@ export default function UploadSection({ onAnalyze, loading }) {
           </div>
         ) : (
           <div style={styles.dropContent}>
-            <div style={styles.uploadIcon}>⬆️</div>
+            <div style={styles.uploadIcon}>^ Upload</div>
             <p style={styles.dropText}>
               {isDragActive ? 'Drop your PDF here...' : 'Drag & drop your resume PDF here'}
             </p>
@@ -98,7 +98,7 @@ export default function UploadSection({ onAnalyze, loading }) {
               <span style={styles.spinner} /> Analyzing...
             </span>
           ) : (
-            '🔍 Analyze Resume'
+            'Analyze Resume'
           )}
         </button>
       </div>

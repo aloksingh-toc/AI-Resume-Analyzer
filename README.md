@@ -1,22 +1,22 @@
-# 🤖 AI-Powered Resume Analyzer
+# AI-Powered Resume Analyzer
 
 A full-stack AI application that analyzes resumes, generates a quality **score out of 100**, and provides **section-wise actionable feedback** — built with **Java 21 + Spring Boot 3.2** (backend) and **React.js + Vite** (frontend), powered by **Groq AI (LLaMA 3.1)** and **Oracle 23ai** database.
 
 ---
 
-## 📸 Features
+## Features
 
-- 📄 **PDF Resume Upload** — drag & drop or click to upload
-- 🧠 **AI Analysis** — powered by Groq's LLaMA 3.1 model (free, fast)
-- 🎯 **Score out of 100** — with visual circular progress indicator
-- 📊 **Section Scores** — Summary, Skills, Experience, Formatting, Professionalism
-- 💬 **Detailed Feedback** — tab-wise feedback for each resume section
-- 📜 **History** — view all past analyses with scores
-- 🗄️ **Persistent Storage** — all analyses saved to Oracle 23ai database
+- **PDF Resume Upload** — drag & drop or click to upload
+- **AI Analysis** — powered by Groq's LLaMA 3.1 model (free, fast)
+- **Score out of 100** — with visual circular progress indicator
+- **Section Scores** — Summary, Skills, Experience, Formatting, Professionalism
+- **Detailed Feedback** — tab-wise feedback for each resume section
+- **History** — view all past analyses with scores
+- **Persistent Storage** — all analyses saved to Oracle 23ai database
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 resume-analyzer/
@@ -52,7 +52,7 @@ resume-analyzer/
 
 ---
 
-## ⚙️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
@@ -68,7 +68,7 @@ resume-analyzer/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -85,7 +85,7 @@ resume-analyzer/
 ### Step 1 — Clone the Repository
 
 ```bash
-git clone https://github.com/aloksingh-toc/resume-analyzer.git
+git clone https://github.com/aloksingh-toc/Resume-Analyzer.git
 cd resume-analyzer
 ```
 
@@ -147,7 +147,7 @@ cd backend
 mvn spring-boot:run
 ```
 
-✅ Ready when you see:
+Ready when you see:
 ```
 Started ResumeAnalyzerApplication in X seconds
 ```
@@ -165,9 +165,9 @@ npm install
 npm run dev
 ```
 
-✅ Ready when you see:
+Ready when you see:
 ```
-➜  Local:   http://localhost:5173/
+Local:   http://localhost:5173/
 ```
 
 ---
@@ -181,7 +181,7 @@ http://localhost:5173
 
 ---
 
-## 📡 API Endpoints
+## API Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -219,7 +219,7 @@ curl -X POST http://localhost:8080/api/resume/analyze \
 
 ---
 
-## 📊 Scoring Rubric
+## Scoring Rubric
 
 | Section | Max Points | What AI Evaluates |
 |---------|-----------|-------------------|
@@ -234,15 +234,15 @@ curl -X POST http://localhost:8080/api/resume/analyze \
 
 | Score | Rating |
 |-------|--------|
-| 83 – 100 | 🟢 Excellent — ready for top companies |
-| 71 – 82 | 🔵 Good — strong with minor improvements needed |
-| 56 – 70 | 🟡 Average — decent but missing key elements |
-| 41 – 55 | 🟠 Below Average — needs significant work |
-| 0 – 40 | 🔴 Needs Work — major revision required |
+| 83 – 100 | Excellent — ready for top companies |
+| 71 – 82 | Good — strong with minor improvements needed |
+| 56 – 70 | Average — decent but missing key elements |
+| 41 – 55 | Below Average — needs significant work |
+| 0 – 40 | Needs Work — major revision required |
 
 ---
 
-## 🔐 Security Notes
+## Security Notes
 
 - `application.properties` is in `.gitignore` — your secrets are never committed
 - Use `application.properties.example` as a template
@@ -251,7 +251,7 @@ curl -X POST http://localhost:8080/api/resume/analyze \
 
 ---
 
-## 🛠️ Common Issues
+## Common Issues
 
 | Error | Fix |
 |-------|-----|
@@ -263,7 +263,7 @@ curl -X POST http://localhost:8080/api/resume/analyze \
 
 ---
 
-## 👤 Author
+## Author
 
 **Alok Kumar Singh**
 - GitHub: [@aloksingh-toc](https://github.com/aloksingh-toc)
@@ -271,6 +271,6 @@ curl -X POST http://localhost:8080/api/resume/analyze \
 
 ---
 
-## 📄 License
+## License
 
 MIT License — free to use, modify, and distribute.

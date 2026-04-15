@@ -2,7 +2,7 @@ export default function HistoryList({ history, onSelect }) {
   if (!history || history.length === 0) {
     return (
       <div style={styles.empty}>
-        <span style={{ fontSize: '32px' }}>📂</span>
+        <span style={{ fontSize: '16px', color: '#64748b' }}>No records found</span>
         <p>No past analyses yet.</p>
       </div>
     )
@@ -17,7 +17,7 @@ export default function HistoryList({ history, onSelect }) {
 
   return (
     <div style={styles.container}>
-      <h3 style={styles.heading}>📜 Analysis History</h3>
+      <h3 style={styles.heading}>Analysis History</h3>
       <div style={styles.list}>
         {history.map((item) => (
           <div
@@ -28,7 +28,7 @@ export default function HistoryList({ history, onSelect }) {
             onMouseLeave={e => e.currentTarget.style.background = '#0f172a'}
           >
             <div style={styles.cardLeft}>
-              <span style={{ fontSize: '20px' }}>📄</span>
+              <span style={{ fontSize: '12px', color: '#64748b', fontWeight: '600' }}>PDF</span>
               <div>
                 <p style={styles.cardName}>{item.filename}</p>
                 <p style={styles.cardDate}>

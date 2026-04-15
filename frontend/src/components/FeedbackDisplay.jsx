@@ -1,11 +1,11 @@
 import { useState } from 'react'
 
 const sections = [
-  { key: 'summaryFeedback',     label: 'Summary',     icon: '📋', color: '#6366f1' },
-  { key: 'skillsFeedback',      label: 'Skills',      icon: '🛠️', color: '#22c55e' },
-  { key: 'experienceFeedback',  label: 'Experience',  icon: '💼', color: '#f59e0b' },
-  { key: 'formattingFeedback',  label: 'Formatting',  icon: '🎨', color: '#ec4899' },
-  { key: 'overallFeedback',     label: 'Overall',     icon: '⭐', color: '#38bdf8' },
+  { key: 'summaryFeedback',     label: 'Summary',     icon: 'S', color: '#6366f1' },
+  { key: 'skillsFeedback',      label: 'Skills',      icon: 'SK', color: '#22c55e' },
+  { key: 'experienceFeedback',  label: 'Experience',  icon: 'EX', color: '#f59e0b' },
+  { key: 'formattingFeedback',  label: 'Formatting',  icon: 'F', color: '#ec4899' },
+  { key: 'overallFeedback',     label: 'Overall',     icon: 'OV', color: '#38bdf8' },
 ]
 
 export default function FeedbackDisplay({ analysis }) {
@@ -17,7 +17,7 @@ export default function FeedbackDisplay({ analysis }) {
     <div style={styles.container}>
       <div style={styles.header}>
         <h3 style={styles.heading}>Detailed Feedback</h3>
-        <p style={styles.filename}>📎 {analysis.filename}</p>
+        <p style={styles.filename}>{analysis.filename}</p>
       </div>
 
       {/* Tabs */}
@@ -51,19 +51,16 @@ export default function FeedbackDisplay({ analysis }) {
       {/* Quick Info Row */}
       <div style={styles.infoRow}>
         <div style={styles.infoCard}>
-          <span style={styles.infoIcon}>🏆</span>
           <span style={styles.infoLabel}>Score</span>
           <span style={styles.infoValue}>{analysis.score}/100</span>
         </div>
         <div style={styles.infoCard}>
-          <span style={styles.infoIcon}>📅</span>
           <span style={styles.infoLabel}>Analyzed</span>
           <span style={styles.infoValue}>
             {new Date(analysis.submittedAt).toLocaleDateString()}
           </span>
         </div>
         <div style={styles.infoCard}>
-          <span style={styles.infoIcon}>🆔</span>
           <span style={styles.infoLabel}>Report ID</span>
           <span style={styles.infoValue}>#{analysis.id}</span>
         </div>
