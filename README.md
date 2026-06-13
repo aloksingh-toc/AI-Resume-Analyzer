@@ -1,6 +1,6 @@
 # AI-Powered Resume Analyzer
 
-A full-stack AI application that analyzes resumes, generates a quality **score out of 100**, and provides **section-wise actionable feedback** — built with **Java 21 + Spring Boot 3.2** (backend) and **React.js + Vite** (frontend), powered by **Groq AI (LLaMA 3.1)** and **Oracle 23ai** database.
+A full-stack AI application that analyzes resumes, generates a quality **score out of 100**, and provides **section-wise actionable feedback** — built with **Java 21 + Spring Boot 3.2** (backend) and **React.js + Vite** (frontend), powered by **Groq AI (LLaMA 3.1)** and **Oracle 23ai** database .
 
 ---
 
