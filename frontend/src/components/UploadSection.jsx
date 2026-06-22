@@ -34,6 +34,14 @@ export default function UploadSection({ onAnalyze, loading }) {
 
   const handleAnalyze = () => {
     if (!selectedFile) { setError('Please select a PDF file first.'); return }
+    if (selectedFile.size > MAX_FILE_SIZE_BYTES) {
+      setError(`File is too large. Max size is ${MAX_FILE_SIZE_MB} MB.`)
+      return
+    }
+    if (selectedFile.type !== 'application/pdf') {
+      setError('Please upload a valid PDF file.')
+      return
+    }
     onAnalyze(selectedFile, jobDescription, industry)
   }
 

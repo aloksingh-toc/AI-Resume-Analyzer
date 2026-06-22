@@ -53,7 +53,7 @@ public class ResumeController {
         String  clientIp   = HttpUtils.getClientIp(request);
         String  username   = isLoggedIn ? authentication.getName() : null;
 
-        if (!isLoggedIn && freeAnalysisTracker.hasUsedFreeAnalysis(clientIp)) {
+        if (!isLoggedIn && !freeAnalysisTracker.tryConsume(clientIp)) {
             return ResponseEntity.status(403).body(Map.of(
                 "error",         String.format("You've used your %d free analyses. Sign in for unlimited access.",
                                                FreeAnalysisTracker.FREE_LIMIT),
@@ -64,11 +64,12 @@ public class ResumeController {
         try {
             AnalysisResponse response = resumeService.analyzeResume(
                 file, username, jobDescription, industry);
-            if (!isLoggedIn) freeAnalysisTracker.record(clientIp);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
+            if (!isLoggedIn) freeAnalysisTracker.release(clientIp);
             log.error("Error analyzing resume: {}", e.getMessage(), e);
-            return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
+            return ResponseEntity.internalServerError().body(
+                Map.of("error", "Something went wrong while analyzing your resume. Please try again."));
         }
     }
 
@@ -82,9 +83,10 @@ public class ResumeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id) {
+    public ResponseEntity<?> getById(@PathVariable Long id, Authentication authentication) {
+        String username = authentication != null ? authentication.getName() : null;
         try {
-            return ResponseEntity.ok(resumeService.getById(id));
+            return ResponseEntity.ok(resumeService.getById(id, username));
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }

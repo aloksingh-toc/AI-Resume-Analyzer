@@ -63,10 +63,14 @@ public class ResumeService {
             .build();
     }
 
-    public AnalysisResponse getById(Long id) {
-        return resumeRepository.findById(id)
-            .map(mapper::toResponse)
+    /** Only the owning user (matched by username) may fetch a saved analysis by id. */
+    public AnalysisResponse getById(Long id, String username) {
+        ResumeAnalysis analysis = resumeRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Analysis not found."));
+        if (username == null || !username.equals(analysis.getUsername())) {
+            throw new RuntimeException("Analysis not found.");
+        }
+        return mapper.toResponse(analysis);
     }
 
     public long getTotalCount() {

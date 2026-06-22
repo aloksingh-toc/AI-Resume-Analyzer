@@ -1,13 +1,6 @@
 import { useState } from 'react'
 import { C } from '../../theme'
-
-const SECTIONS = [
-  { key: 'summaryFeedback',    label: 'Summary',        scoreKey: 'summaryScore',    max: 20,   color: '#6366f1' },
-  { key: 'skillsFeedback',     label: 'Skills',         scoreKey: 'skillsScore',     max: 20,   color: '#8b5cf6' },
-  { key: 'experienceFeedback', label: 'Experience',     scoreKey: 'experienceScore', max: 30,   color: '#3b82f6' },
-  { key: 'formattingFeedback', label: 'Formatting',     scoreKey: 'formattingScore', max: 15,   color: '#0891b2' },
-  { key: 'overallFeedback',    label: 'Overall Action', scoreKey: null,              max: null, color: '#7c3aed' },
-]
+import { FEEDBACK_SECTIONS as SECTIONS } from '../../constants'
 
 function firstSentence(text) {
   if (!text) return 'No feedback available.'
