@@ -1,12 +1,5 @@
 import { scoreColor } from '../theme'
-
-const SECTIONS = [
-  { key: 'summaryFeedback',    label: 'Summary',        scoreKey: 'summaryScore',    max: 20, color: '#6366f1' },
-  { key: 'skillsFeedback',     label: 'Skills',         scoreKey: 'skillsScore',     max: 20, color: '#8b5cf6' },
-  { key: 'experienceFeedback', label: 'Experience',     scoreKey: 'experienceScore', max: 30, color: '#3b82f6' },
-  { key: 'formattingFeedback', label: 'Formatting',     scoreKey: 'formattingScore', max: 15, color: '#0891b2' },
-  { key: 'overallFeedback',    label: 'Overall Action', scoreKey: null,              max: null, color: '#7c3aed' },
-]
+import { FEEDBACK_SECTIONS as SECTIONS } from '../constants'
 
 function escapeHtml(str) {
   if (!str) return ''
@@ -63,6 +56,10 @@ function buildHtml(analysis) {
  */
 export function downloadReport(analysis) {
   const w = window.open('', '_blank', 'width=820,height=700')
+  if (!w) {
+    alert('Your browser blocked the report popup. Please allow popups for this site and try again.')
+    return
+  }
   w.document.write(buildHtml(analysis))
   w.document.close()
   w.focus()

@@ -29,6 +29,10 @@ public class UserService implements UserDetailsService {
 
     @PostConstruct
     public void init() {
+        if (adminPassword == null || adminPassword.isBlank()) {
+            throw new IllegalStateException(
+                "app.password (APP_PASSWORD) must be set to a non-blank value at startup.");
+        }
         this.encodedAdminPassword = passwordEncoder.encode(adminPassword);
     }
 

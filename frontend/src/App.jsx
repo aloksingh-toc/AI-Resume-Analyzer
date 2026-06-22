@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import UploadSection from './components/UploadSection'
 import ScoreDisplay from './components/ScoreDisplay'
 import FeedbackDisplay from './components/FeedbackDisplay'
@@ -8,7 +8,7 @@ import ResumeTips from './components/ResumeTips'
 import TemplateGallery from './components/TemplateGallery'
 import HowItWorks from './components/HowItWorks'
 import { analyzeResume, getHistory, getMe, logout, setUnauthorizedHandler, getStats } from './services/api'
-import { darkTokens as C, C as _C } from './theme'
+import { darkTokens as C, C as rawTokens } from './theme'
 import { FREE_ANALYSIS_LIMIT } from './constants'
 
 /** Strips HTML tags from backend error strings and returns a clean message. */
@@ -32,6 +32,7 @@ export default function App() {
   const [showLoginModal, setShowLoginModal]   = useState(false)
   const [loginMessage, setLoginMessage]       = useState('')
   const [totalAnalyses, setTotalAnalyses]     = useState(null)   // Rec #3 social proof
+  const historyRequestId                     = useRef(0)        // guards against out-of-order responses
 
   useEffect(() => {
     setUnauthorizedHandler(() => setIsAuthenticated(false))
@@ -86,16 +87,18 @@ export default function App() {
   }
 
   const fetchHistory = async (page = 0) => {
+    const requestId = ++historyRequestId.current
     setHistoryLoading(true)
     try {
       const data = await getHistory(page)
+      if (requestId !== historyRequestId.current) return // a newer request superseded this one
       setHistory(prev => page === 0 ? data.content : [...prev, ...data.content])
       setHistoryPage(data.page)
       setHistoryHasMore(!data.last)
     } catch (err) {
       console.warn('Failed to load history:', err.message)
     } finally {
-      setHistoryLoading(false)
+      if (requestId === historyRequestId.current) setHistoryLoading(false)
     }
   }
 
@@ -318,7 +321,7 @@ const styles = {
   proofText:     { fontSize: '13px', color: C.textMuted },
 
   freeNote:      { color: C.textMuted, fontSize: '13px', marginTop: '4px' },
-  errorBox:      { background: _C.errorSurface, border: `1px solid ${_C.errorBorder}`, color: _C.errorText, padding: '14px 20px', borderRadius: '10px', maxWidth: '500px', textAlign: 'center' },
+  errorBox:      { background: rawTokens.errorSurface, border: `1px solid ${rawTokens.errorBorder}`, color: rawTokens.errorText, padding: '14px 20px', borderRadius: '10px', maxWidth: '500px', textAlign: 'center' },
   loadingBox:    { textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' },
   loadingDots:   { display: 'flex', gap: '8px' },
   dot:           { width: '10px', height: '10px', background: C.accent, borderRadius: '50%', animation: 'pulse 1.2s ease-in-out infinite' },

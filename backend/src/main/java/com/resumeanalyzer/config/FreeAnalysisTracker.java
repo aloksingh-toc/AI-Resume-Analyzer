@@ -31,14 +31,32 @@ public class FreeAnalysisTracker {
         return rec[0] >= FREE_LIMIT;
     }
 
-    public void record(String ip) {
+    /**
+     * Atomically checks-and-reserves one free analysis for this IP, returning false if the
+     * limit is already reached. Reserving (rather than checking then recording separately)
+     * closes the race where two concurrent requests from the same IP could both pass the
+     * limit check before either one's usage was recorded.
+     */
+    public boolean tryConsume(String ip) {
         purgeStale();
-        counts.compute(ip, (key, rec) -> {
-            long now = Instant.now().toEpochMilli();
-            if (rec == null || isExpired(rec)) return new long[]{ 1, now };
-            rec[0]++;
+        long now = Instant.now().toEpochMilli();
+        boolean[] allowed = new boolean[1];
+        counts.compute(ip, (key, existing) -> {
+            long[] rec = (existing == null || isExpired(existing)) ? new long[]{ 0, now } : existing;
+            if (rec[0] >= FREE_LIMIT) {
+                allowed[0] = false;
+            } else {
+                rec[0]++;
+                allowed[0] = true;
+            }
             return rec;
         });
+        return allowed[0];
+    }
+
+    /** Gives back a reserved slot, e.g. when the analysis that consumed it failed. */
+    public void release(String ip) {
+        counts.computeIfPresent(ip, (key, rec) -> { if (rec[0] > 0) rec[0]--; return rec; });
     }
 
     // ── Internals ────────────────────────────────────────────────────────────
