@@ -8,7 +8,7 @@ import ResumeTips from './components/ResumeTips'
 import TemplateGallery from './components/TemplateGallery'
 import HowItWorks from './components/HowItWorks'
 import { analyzeResume, getHistory, getMe, logout, setUnauthorizedHandler, getStats } from './services/api'
-import { darkTokens as C, C as rawTokens } from './theme'
+import { darkTokens as C, C as rawTokens, tracking } from './theme'
 import { FREE_ANALYSIS_LIMIT } from './constants'
 
 /** Strips HTML tags from backend error strings and returns a clean message. */
@@ -32,6 +32,7 @@ export default function App() {
   const [showLoginModal, setShowLoginModal]   = useState(false)
   const [loginMessage, setLoginMessage]       = useState('')
   const [totalAnalyses, setTotalAnalyses]     = useState(null)   // Rec #3 social proof
+  const [totalHistoryCount, setTotalHistoryCount] = useState(0)  // L-1 true total (not paginated)
   const historyRequestId                     = useRef(0)        // guards against out-of-order responses
 
   useEffect(() => {
@@ -75,6 +76,7 @@ export default function App() {
     setIsAuthenticated(false)
     setUsername('')
     setHistory([])
+    setTotalHistoryCount(0)
     setAnalysis(null)
     setPrevScore(null)
     setView('upload')
@@ -95,6 +97,7 @@ export default function App() {
       setHistory(prev => page === 0 ? data.content : [...prev, ...data.content])
       setHistoryPage(data.page)
       setHistoryHasMore(!data.last)
+      if (page === 0) setTotalHistoryCount(data.totalElements)  // L-1 true total from backend
     } catch (err) {
       console.warn('Failed to load history:', err.message)
     } finally {
@@ -154,7 +157,7 @@ export default function App() {
           {isAuthenticated && (
             <button onClick={() => { setView('history'); fetchHistory(0) }}
               style={{ ...styles.navBtn, ...(view === 'history' ? styles.navBtnActive : {}) }}>
-              History {history.length > 0 && <span style={styles.badge}>{history.length}</span>}
+              History {totalHistoryCount > 0 && <span style={styles.badge}>{totalHistoryCount}</span>}
             </button>
           )}
           {isAuthenticated ? (
@@ -312,7 +315,7 @@ const styles = {
 
   uploadView:    { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '40px' },
   hero:          { textAlign: 'center', maxWidth: '600px' },
-  heroBadge:     { display: 'inline-block', background: '#0d1629', border: `1px solid ${C.border}`, color: C.accent, padding: '4px 14px', borderRadius: '999px', fontSize: '12px', fontWeight: '600', letterSpacing: '0.5px', marginBottom: '18px' },
+  heroBadge:     { display: 'inline-block', background: '#0d1629', border: `1px solid ${C.border}`, color: C.accent, padding: '4px 14px', borderRadius: '999px', fontSize: '12px', fontWeight: '600', letterSpacing: tracking.tight, marginBottom: '18px' },
   heroTitle:     { fontWeight: '800', color: C.text },
   heroSub:       { color: C.textSub, fontSize: '17px', lineHeight: '1.7', marginBottom: '14px' },
 
@@ -338,7 +341,7 @@ const styles = {
   nudgeBtn:      { background: C.gradient, border: 'none', color: '#fff', padding: '6px 16px', borderRadius: '7px', cursor: 'pointer', fontSize: '13px', fontWeight: '700', whiteSpace: 'nowrap' },
 
   historyView:   { width: '100%', maxWidth: '700px', margin: '0 auto' },
-  sectionTitle:  { fontSize: '22px', fontWeight: '700', color: C.text, marginBottom: '20px', fontStyle: 'italic' },
-  footer:        { textAlign: 'center', padding: '20px', borderTop: `1px solid ${C.border}`, color: C.textMuted, fontSize: '13px' },
+  sectionTitle:  { fontSize: '22px', fontWeight: '700', color: C.text, marginBottom: '20px' },
+  footer:        { textAlign: 'center', padding: '20px', borderTop: '1px solid #2a3755', color: '#94a3b8', fontSize: '13px' },
   modalOverlay:  { position: 'fixed', inset: 0, background: 'rgba(6,13,26,0.88)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '24px' },
 }

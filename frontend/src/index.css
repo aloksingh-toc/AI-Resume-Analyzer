@@ -24,6 +24,12 @@ input, button, textarea, select {
 @keyframes fadeIn  { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes spin    { to   { transform: rotate(360deg); } }
 @keyframes pulse   { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
 @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
 
 /* ─────────────────────────────────────────────
@@ -221,6 +227,7 @@ input, button, textarea, select {
   width: 100%;
   max-width: 860px;
   position: relative;
+  --hiw-gap: 16px;
 }
 
 /* hide the connector arrow on last card */
@@ -228,12 +235,15 @@ input, button, textarea, select {
   display: none;
 }
 
+@media (max-width: 900px) {
+  .hiw-connector {
+    display: none;
+  }
+}
+
 @media (max-width: 700px) {
   .hiw-grid {
     grid-template-columns: 1fr;
-  }
-  .hiw-connector {
-    display: none !important;
   }
 }
 

@@ -58,7 +58,7 @@ export default function FeedbackAccordion({ analysis }) {
 const styles = {
   hint:         { color: C.muted, fontSize: '12px', marginBottom: '12px' },
   accordion:    { display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' },
-  section:      { background: C.surface, border: `1px solid ${C.border}`, borderRadius: '12px', overflow: 'hidden', transition: 'border-color 0.2s' },
+  section:      { background: '#f8faff', border: `1px solid ${C.border}`, borderRadius: '12px', overflow: 'hidden', transition: 'border-color 0.2s' },
   sectionOpen:  { border: '1px solid #a5b4fc' },
   head:         { width: '100%', display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 16px', background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left' },
   dot:          { width: '10px', height: '10px', borderRadius: '50%', flexShrink: 0 },

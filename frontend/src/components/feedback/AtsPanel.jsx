@@ -1,4 +1,4 @@
-import { statusColor } from '../../theme'
+import { C, statusColor, tracking } from '../../theme'
 
 export default function AtsPanel({ atsScore, atsIssues }) {
   if (atsScore == null) return null
@@ -22,9 +22,9 @@ export default function AtsPanel({ atsScore, atsIssues }) {
 }
 
 const styles = {
-  wrap:  { background: '#f8faff', border: '1px solid #e0e7ff', borderRadius: '12px', padding: '14px 16px', marginBottom: '12px' },
+  wrap:  { background: '#f8faff', border: `1px solid ${C.border}`, borderRadius: '12px', padding: '14px 16px', marginBottom: '12px' },
   top:   { display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' },
-  label: { fontSize: '11px', fontWeight: '700', color: '#374151', textTransform: 'uppercase', letterSpacing: '0.6px' },
+  label: { fontSize: '11px', fontWeight: '700', color: C.sub, textTransform: 'uppercase', letterSpacing: tracking.tight },
   badge: { padding: '3px 12px', borderRadius: '999px', fontSize: '13px', fontWeight: '800' },
   list:  { margin: 0, paddingLeft: '16px', display: 'flex', flexDirection: 'column', gap: '4px' },
   issue: { fontSize: '12px', color: '#dc2626', lineHeight: '1.5' },

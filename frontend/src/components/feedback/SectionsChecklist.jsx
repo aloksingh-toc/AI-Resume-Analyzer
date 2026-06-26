@@ -1,3 +1,5 @@
+import { C, tracking } from '../../theme'
+
 // NOTE: This list must stay in sync with the missingSectionsRules() in AIService.java
 export const KNOWN_SECTIONS = [
   'Contact Info', 'Professional Summary', 'Work Experience',
@@ -27,8 +29,8 @@ export default function SectionsChecklist({ missingSections }) {
 }
 
 const styles = {
-  wrap:  { background: '#f8faff', border: '1px solid #e0e7ff', borderRadius: '12px', padding: '14px 16px', marginBottom: '12px' },
-  label: { display: 'block', fontSize: '11px', fontWeight: '700', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.6px', marginBottom: '10px' },
+  wrap:  { background: '#f8faff', border: `1px solid ${C.border}`, borderRadius: '12px', padding: '14px 16px', marginBottom: '12px' },
+  label: { display: 'block', fontSize: '11px', fontWeight: '700', color: C.muted, textTransform: 'uppercase', letterSpacing: tracking.tight, marginBottom: '10px' },
   grid:  { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '6px', alignItems: 'start' },
   row:   { display: 'flex', alignItems: 'center', gap: '7px', padding: '6px 10px', borderRadius: '8px', fontSize: '12px', fontWeight: '500', height: '32px' },
   ok:    { background: '#f0fdf4', color: '#15803d', border: '1px solid #bbf7d0' },
