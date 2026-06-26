@@ -40,7 +40,9 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/health").permitAll()          // keep-alive pinger must not need auth
                 .requestMatchers("/api/resume/analyze").permitAll()  // free tier managed in controller
+                .requestMatchers("/api/resume/stats").permitAll()    // public social-proof counter
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().permitAll()
             )
