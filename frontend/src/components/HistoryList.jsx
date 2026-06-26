@@ -50,16 +50,16 @@ export default function HistoryList({ history, onSelect, hasMore, onLoadMore, lo
 }
 
 const styles = {
-  container:       { background: C.card_light, border: `1px solid ${C.border}`, borderRadius: '20px', padding: '24px', boxShadow: '0 4px 24px rgba(245,158,11,0.10)' },
-  heading:         { fontSize: '17px', fontWeight: '700', color: C.text, marginBottom: '16px', fontStyle: 'italic' },
+  container:       { background: C.card_light, border: `1px solid ${C.border}`, borderRadius: '20px', padding: '24px', boxShadow: '0 4px 24px rgba(99,102,241,0.10)' },
+  heading:         { fontSize: '17px', fontWeight: '700', color: C.text, marginBottom: '16px' },
   list:            { display: 'flex', flexDirection: 'column', gap: '8px' },
   card:            { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', background: '#f0f4ff', border: `1px solid ${C.border}`, borderRadius: '10px', cursor: 'pointer', transition: 'all 0.2s' },
   cardLeft:        { display: 'flex', alignItems: 'center', gap: '12px' },
   pdfBadge:        { fontSize: '10px', fontWeight: '700', color: '#d97706', background: '#fef3c7', border: '1px solid #f0d070', padding: '3px 7px', borderRadius: '5px' },
   cardName:        { color: C.text, fontWeight: '500', fontSize: '14px', marginBottom: '2px' },
   cardDate:        { color: C.muted, fontSize: '12px' },
-  scoreBadge:      { padding: '4px 13px', borderRadius: '999px', fontWeight: '800', fontSize: '14px', fontStyle: 'italic' },
-  empty:           { textAlign: 'center', padding: '48px 32px', background: C.card, border: `1px solid ${C.border}`, borderRadius: '20px', boxShadow: '0 4px 24px rgba(245,158,11,0.10)' },
+  scoreBadge:      { padding: '4px 13px', borderRadius: '999px', fontWeight: '800', fontSize: '14px' },
+  empty:           { textAlign: 'center', padding: '48px 32px', background: C.card, border: `1px solid ${C.border}`, borderRadius: '20px', boxShadow: '0 4px 24px rgba(99,102,241,0.10)' },
   loadMoreBtn:     { marginTop: '14px', width: '100%', padding: '10px', background: 'transparent', border: `1px solid ${C.border}`, borderRadius: '8px', color: C.muted, fontSize: '14px', cursor: 'pointer', transition: 'all 0.2s' },
   loadMoreDisabled:{ opacity: 0.45, cursor: 'not-allowed' },
 }

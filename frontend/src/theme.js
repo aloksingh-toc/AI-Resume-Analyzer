@@ -31,7 +31,7 @@ export const C = {
   // Text on dark bg
   text_dark:   '#f1f5f9',
   textSub:     '#94a3b8',
-  textMuted:   '#64748b',
+  textMuted:   '#94a3b8',
 
   // Text on light card bg
   text:        '#0f172a',
@@ -42,6 +42,12 @@ export const C = {
   errorSurface: '#1e0a2e',
   errorBorder:  '#7c3aed',
   errorText:    '#ddd6fe',
+}
+
+// ── Letter-spacing tokens ───────────────────────────────────────────────────────
+export const tracking = {
+  tight: '0.5px',   // inline / field labels
+  wide:  '1.5px',   // section headings
 }
 
 // ── Pre-composed alias groups (import these instead of re-aliasing locally) ───

@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { darkTokens as D, C } from '../theme'
 
+// Each template links to a category-specific Google Docs template search.
+// TODO: replace with per-template URLs for better UX (see L-3 in design audit).
 const TEMPLATE_URL = 'https://docs.google.com/document/u/0/?ftv=1&tgif=d'
 
 const categories = ['All', 'Freshers', 'Experienced', 'NBFC / Finance', 'IT / Tech', 'Non-IT', 'Healthcare', 'Creative']
@@ -120,7 +122,7 @@ function TemplateCard({ template: t }) {
             color: hovered ? '#fff' : C.accent,
           }}
         >
-          Use Template
+          Browse Free Templates →
         </a>
       </div>
     </div>

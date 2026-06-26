@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { lightTokens as C } from '../theme'
+import { lightTokens as C, tracking } from '../theme'
 import { MAX_FILE_SIZE_MB, MAX_FILE_SIZE_BYTES } from '../constants'
 
 const INDUSTRIES = [
@@ -178,7 +178,7 @@ const styles = {
   subtitle:     { fontSize: '13px', color: C.muted },
 
   fieldGroup:   { marginBottom: '14px' },
-  fieldLabel:   { display: 'block', fontSize: '12px', fontWeight: '600', color: C.sub, marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' },
+  fieldLabel:   { display: 'block', fontSize: '12px', fontWeight: '600', color: C.sub, marginBottom: '6px', textTransform: 'uppercase', letterSpacing: tracking.tight },
   select:       { width: '100%', padding: '10px 14px', borderRadius: '10px', border: `1px solid ${C.border}`, background: '#f8faff', color: C.text, fontSize: '14px', cursor: 'pointer', outline: 'none', appearance: 'auto' },
 
   jdToggleRow:  { marginBottom: '12px' },

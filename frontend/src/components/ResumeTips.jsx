@@ -1,4 +1,4 @@
-import { C } from '../theme'
+import { C, tracking } from '../theme'
 
 const tips = [
   { title: 'Quantify achievements', body: 'Use numbers — "Led team of 8" beats "Led a team".' },
@@ -27,7 +27,7 @@ export default function ResumeTips() {
 
 const styles = {
   wrap:    { width: '100%', maxWidth: '620px' },
-  heading: { color: C.muted, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: '600', marginBottom: '12px', textAlign: 'center' },
+  heading: { color: C.muted, fontSize: '12px', textTransform: 'uppercase', letterSpacing: tracking.tight, fontWeight: '600', marginBottom: '12px', textAlign: 'center' },
   grid:    { gap: '10px' },
   card:    { background: C.card_light, border: `1px solid ${C.border}`, borderRadius: '10px', padding: '12px 14px', boxShadow: '0 2px 8px rgba(99,102,241,0.06)' },
   title:   { color: C.sub, fontSize: '12px', fontWeight: '700', marginBottom: '2px' },
