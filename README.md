@@ -1,5 +1,7 @@
 # AI-Powered Resume Analyzer
 
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
+
 A full-stack AI application that analyzes resumes, generates a quality **score out of 100**, and provides **section-wise actionable feedback** — built with **Java 21 + Spring Boot 3.2** (backend) and **React.js + Vite** (frontend), powered by **Groq AI (LLaMA 3.1)** and **Oracle 23ai** data base.
 
 ---
@@ -273,4 +275,7 @@ curl -X POST http://localhost:8080/api/resume/analyze \
 
 ## License
 
-MIT License — free to use, modify, and distribute.
+Licensed under the [GNU Affero General Public License v3.0 (AGPL-3.0)](LICENSE).
+You're free to use, modify, and self-host this project, but if you run a
+modified version as a network service, you must make your modified source
+available to its users.
