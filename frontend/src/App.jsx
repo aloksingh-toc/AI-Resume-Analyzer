@@ -5,6 +5,8 @@ import FeedbackDisplay from './components/FeedbackDisplay'
 import HistoryList from './components/HistoryList'
 import LoginPage from './components/LoginPage'
 import ProcessingOverlay from './components/ProcessingOverlay'
+import ParticleBackground from './components/ParticleBackground'
+import ConfettiEffect from './components/ConfettiEffect'
 import ResumeTips from './components/ResumeTips'
 import TemplateGallery from './components/TemplateGallery'
 import HowItWorks from './components/HowItWorks'
@@ -36,6 +38,7 @@ export default function App() {
   const [error, setError]                     = useState('')
   const [showLoginModal, setShowLoginModal]   = useState(false)
   const [loginMessage, setLoginMessage]       = useState('')
+  const [showConfetti, setShowConfetti]       = useState(false)
   const [totalAnalyses, setTotalAnalyses]     = useState(null)   // Rec #3 social proof
   const [totalHistoryCount, setTotalHistoryCount] = useState(0)  // L-1 true total (not paginated)
   const historyRequestId                     = useRef(0)        // guards against out-of-order responses
@@ -125,6 +128,8 @@ export default function App() {
       setAnalysis(result)
       setView('result')
       setTotalAnalyses(n => (n != null ? n + 1 : null))
+      // Confetti for scores >= 80
+      if (result.score >= 80) { setShowConfetti(true); setTimeout(() => setShowConfetti(false), 3500) }
       if (isAuthenticated) fetchHistory(0)
     } catch (err) {
       if (err.response?.data?.loginRequired) {
@@ -149,9 +154,11 @@ export default function App() {
   const proofNumber = totalAnalyses != null ? totalAnalyses.toLocaleString() : null
 
   return (
-    <div className={s.page}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+      <ParticleBackground />
+      <ConfettiEffect active={showConfetti} />
       {/* ── Header ── */}
-      <header className={`${s.header} app-header`}>
+      <header className="app-shell">
         <div className={s.logo}>
           <div className={s.logoMark}>R</div>
           <span className={s.logoText}>AI Resume Analyzer</span>
@@ -192,7 +199,7 @@ export default function App() {
             {/* Hero */}
             <div className={s.hero}>
               <div className={s.heroBadge}>AI-Powered Resume Analysis</div>
-                <h1 className={`${s.heroTitle} hero-title`}>
+                <h1 className="hero-title gradient-text" style={{ fontSize: 'clamp(36px, 6vw, 72px)', fontWeight: 900, lineHeight: 1.05, marginBottom: 20, letterSpacing: '-0.03em' }}>
                 Land the Interview.
               </h1>
               <p className={s.heroSub}>

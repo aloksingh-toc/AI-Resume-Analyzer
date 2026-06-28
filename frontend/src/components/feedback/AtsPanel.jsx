@@ -1,31 +1,29 @@
-import { C, statusColor, tracking } from '../../theme'
+import { statusColor } from '../../theme'
 
 export default function AtsPanel({ atsScore, atsIssues }) {
   if (atsScore == null) return null
   const color = statusColor(atsScore)
 
   return (
-    <div style={styles.wrap}>
-      <div style={styles.top}>
-        <span style={styles.label}>ATS Compatibility</span>
-        <span style={{ ...styles.badge, background: color + '18', color, border: `1px solid ${color}44` }}>
+    <div className="glass-card" style={{ padding: '18px', marginBottom: '14px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: atsIssues?.length > 0 ? '12px' : 0 }}>
+        <span style={{ fontSize: '12px', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '1px' }}>ATS Compatibility</span>
+        <span style={{
+          padding: '4px 14px', borderRadius: '999px', fontSize: '14px', fontWeight: '800',
+          background: color + '18', color, border: `1px solid ${color}40`,
+        }}>
           {atsScore}/100
         </span>
       </div>
       {atsIssues?.length > 0 && (
-        <ul style={styles.list}>
-          {atsIssues.map((issue, i) => <li key={i} style={styles.issue}>{issue}</li>)}
-        </ul>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+          {atsIssues.map((issue, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', color: '#fca5a5' }}>
+              <span style={{ color: '#ef4444', fontWeight: '700' }}>✗</span> {issue}
+            </div>
+          ))}
+        </div>
       )}
     </div>
   )
-}
-
-const styles = {
-  wrap:  { background: '#f8faff', border: `1px solid ${C.border}`, borderRadius: '12px', padding: '14px 16px', marginBottom: '12px' },
-  top:   { display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' },
-  label: { fontSize: '11px', fontWeight: '700', color: C.sub, textTransform: 'uppercase', letterSpacing: tracking.tight },
-  badge: { padding: '3px 12px', borderRadius: '999px', fontSize: '13px', fontWeight: '800' },
-  list:  { margin: 0, paddingLeft: '16px', display: 'flex', flexDirection: 'column', gap: '4px' },
-  issue: { fontSize: '12px', color: '#dc2626', lineHeight: '1.5' },
 }
