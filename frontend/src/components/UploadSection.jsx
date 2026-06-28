@@ -5,11 +5,24 @@ import { MAX_FILE_SIZE_MB, MAX_FILE_SIZE_BYTES } from '../constants'
 import s from './UploadSection.module.css'
 
 const INDUSTRIES = [
-  '', 'Software / IT', 'Data Science / AI', 'DevOps / Cloud', 'Cybersecurity',
-  'Banking / Finance', 'NBFC / Lending', 'Investment Banking', 'Accounting / Audit',
-  'Marketing / Growth', 'Sales / Business Development', 'Human Resources',
-  'Operations / Supply Chain', 'Healthcare / Clinical', 'Pharma / Biotech',
-  'Consulting / Strategy', 'Legal', 'Education', 'Creative / Design', 'Other',
+  { value: 'Software / IT',           icon: '💻', color: '#6366f1' },
+  { value: 'Data Science / AI',       icon: '🤖', color: '#8b5cf6' },
+  { value: 'DevOps / Cloud',          icon: '☁️', color: '#0891b2' },
+  { value: 'Cybersecurity',           icon: '🔒', color: '#059669' },
+  { value: 'Banking / Finance',       icon: '🏦', color: '#d97706' },
+  { value: 'Investment Banking',      icon: '📈', color: '#dc2626' },
+  { value: 'Accounting / Audit',      icon: '📊', color: '#7c3aed' },
+  { value: 'Marketing / Growth',      icon: '📣', color: '#db2777' },
+  { value: 'Sales / Business Development', icon: '🤝', color: '#ea580c' },
+  { value: 'Human Resources',         icon: '👥', color: '#2563eb' },
+  { value: 'Operations / Supply Chain', icon: '🚚', color: '#4f46e5' },
+  { value: 'Healthcare / Clinical',   icon: '🏥', color: '#16a34a' },
+  { value: 'Pharma / Biotech',        icon: '🧬', color: '#9333ea' },
+  { value: 'Consulting / Strategy',   icon: '💡', color: '#f59e0b' },
+  { value: 'Legal',                   icon: '⚖️',  color: '#475569' },
+  { value: 'Education',               icon: '📚', color: '#0284c7' },
+  { value: 'Creative / Design',       icon: '🎨', color: '#ec4899' },
+  { value: 'Other',                   icon: '📋', color: '#6b7280' },
 ]
 
 export default function UploadSection({ onAnalyze, loading }) {
@@ -18,6 +31,7 @@ export default function UploadSection({ onAnalyze, loading }) {
   const [industry, setIndustry]             = useState('')
   const [jdOpen, setJdOpen]                 = useState(false)
   const [error, setError]                   = useState('')
+  const [pasteFlash, setPasteFlash]         = useState(false)
 
   const onDrop = useCallback((accepted, rejected) => {
     setError('')
@@ -46,8 +60,19 @@ export default function UploadSection({ onAnalyze, loading }) {
     onAnalyze(selectedFile, jobDescription, industry)
   }
 
+  const handleJdPaste = (e) => {
+    const text = e.clipboardData?.getData('text')
+    if (text && text.length > 50) {
+      setPasteFlash(true)
+      setTimeout(() => setPasteFlash(false), 600)
+    }
+  }
+
+  const wordCount = jobDescription.trim() ? jobDescription.trim().split(/\s+/).length : 0
+
   return (
     <div className={`${s.container} upload-card`}>
+      {/* Header */}
       <div className={s.header}>
         <div className={s.iconWrap}>
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={C.accent} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -62,52 +87,114 @@ export default function UploadSection({ onAnalyze, loading }) {
         <p className={s.subtitle}>PDF only · Max {MAX_FILE_SIZE_MB} MB · Results in under 20 seconds</p>
       </div>
 
-      {/* Industry selector — Rec #5 */}
-      <div className={s.fieldGroup}>
-        <label className={s.fieldLabel}>Target Industry / Role</label>
-        <select
-          value={industry}
-          onChange={e => setIndustry(e.target.value)}
-          className={s.select}
-          disabled={loading}
-        >
-          <option value="">— Select for tailored feedback (optional) —</option>
-          {INDUSTRIES.filter(i => i).map(i => (
-            <option key={i} value={i}>{i}</option>
-          ))}
-        </select>
+      {/* ── Interactive Industry Pills ── */}
+      <div className={s.sectionBlock}>
+        <div className={s.sectionHeader}>
+          <span className={s.sectionIcon}>🎯</span>
+          <span className={s.sectionLabel}>Target Industry</span>
+          {industry && (
+            <button onClick={() => setIndustry('')} className={s.clearBtn}>Clear</button>
+          )}
+        </div>
+        <p className={s.sectionHint}>Select an industry for tailored feedback — or skip for general analysis</p>
+        <div className={s.industryGrid}>
+          {INDUSTRIES.map(({ value, icon, color }) => {
+            const selected = industry === value
+            return (
+              <button
+                key={value}
+                onClick={() => setIndustry(selected ? '' : value)}
+                disabled={loading}
+                className={s.industryChip}
+                style={{
+                  borderColor: selected ? color : '#c7d2fe',
+                  background: selected ? color + '14' : '#f8faff',
+                  boxShadow: selected ? `0 0 0 2px ${color}30` : 'none',
+                  transform: selected ? 'scale(1.03)' : 'scale(1)',
+                }}
+                title={value}
+              >
+                <span className={s.chipIcon}>{icon}</span>
+                <span className={s.chipLabel} style={{ color: selected ? color : '#374151' }}>
+                  {value.length > 22 ? value.slice(0, 20) + '…' : value}
+                </span>
+                {selected && <span className={s.chipCheck} style={{ color }}>✓</span>}
+              </button>
+            )
+          })}
+        </div>
       </div>
 
-      {/* JD toggle — Rec #1 */}
-      <div className={s.jdToggleRow}>
+      {/* ── Interactive JD Section ── */}
+      <div className={`${s.sectionBlock} ${jdOpen ? s.jdSectionOpen : ''}`}>
         <button
           type="button"
           onClick={() => setJdOpen(o => !o)}
-          className={s.jdToggleBtn}
+          className={s.jdToggle}
           disabled={loading}
         >
-          <span className={s.jdToggleIcon} style={{ transform: jdOpen ? 'rotate(90deg)' : 'none' }}>›</span>
-          {jdOpen ? 'Hide' : 'Paste Job Description'} — get keyword match score
+          <div className={s.jdToggleLeft}>
+            <span className={s.jdIcon}>📝</span>
+            <div className={s.jdToggleText}>
+              <span className={s.jdToggleTitle}>Job Description</span>
+              <span className={s.jdToggleSub}>
+                {jdOpen ? 'Paste the JD for keyword match scoring' : 'Get a keyword match score against a specific job'}
+              </span>
+            </div>
+          </div>
+          <div className={s.jdToggleRight}>
+            {wordCount > 0 && !jdOpen && (
+              <span className={s.jdWordBadge}>{wordCount} words</span>
+            )}
+            <span className={s.jdChevron} style={{ transform: jdOpen ? 'rotate(180deg)' : 'none' }}>▾</span>
+          </div>
         </button>
-      </div>
 
-      {jdOpen && (
-        <div className={s.jdArea}>
-          <textarea
-            value={jobDescription}
-            onChange={e => setJobDescription(e.target.value)}
-            placeholder="Paste the full job description here. The AI will calculate how well your resume matches the role and list missing keywords."
-            rows={6}
-            className={s.textarea}
-            disabled={loading}
-          />
-          {jobDescription.trim() && (
-            <p className={s.jdHint}>
-              {jobDescription.trim().split(/\s+/).length} words pasted — keyword match will be calculated.
-            </p>
-          )}
-        </div>
-      )}
+        {jdOpen && (
+          <div className={`${s.jdBody} ${pasteFlash ? s.jdPasteFlash : ''}`}>
+            <textarea
+              value={jobDescription}
+              onChange={e => setJobDescription(e.target.value)}
+              onPaste={handleJdPaste}
+              placeholder="Paste the full job description here…"
+              rows={8}
+              className={s.textarea}
+              disabled={loading}
+              autoFocus
+            />
+            <div className={s.jdFooter}>
+              <div className={s.jdStats}>
+                <span className={s.jdStat}>
+                  <span style={{ fontWeight: '700', color: wordCount > 20 ? '#16a34a' : '#6b7280' }}>
+                    {wordCount}
+                  </span> words
+                </span>
+                <span className={s.jdStat}>
+                  <span style={{ fontWeight: '700', color: wordCount > 20 ? '#16a34a' : '#6b7280' }}>
+                    {Math.min(100, Math.round(wordCount * 0.75))}%
+                  </span> match potential
+                </span>
+                <span className={s.jdStat}>
+                  {wordCount > 50 ? '✅ Detailed' : wordCount > 20 ? '👍 Good enough' : '⚠️ Add more detail'}
+                </span>
+              </div>
+              <div className={s.jdPowerBar}>
+                <div
+                  className={s.jdPowerFill}
+                  style={{
+                    width: `${Math.min(100, wordCount * 1.5)}%`,
+                    background: wordCount > 50
+                      ? 'linear-gradient(90deg, #16a34a, #22c55e)'
+                      : wordCount > 20
+                        ? 'linear-gradient(90deg, #d97706, #f59e0b)'
+                        : 'linear-gradient(90deg, #dc2626, #f87171)',
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* Drop zone */}
       <div
@@ -166,5 +253,3 @@ export default function UploadSection({ onAnalyze, loading }) {
     </div>
   )
 }
-
-
