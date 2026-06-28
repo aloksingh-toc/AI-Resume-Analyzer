@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -30,12 +31,12 @@ public class ResumeController {
     private final ResumeFileValidator  fileValidator;
 
     /** Social-proof counter — total resumes analyzed across all users. */
-    @GetMapping("/stats")
+    @GetMapping(value = "/stats", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, Long>> stats() {
         return ResponseEntity.ok(Map.of("totalAnalyses", resumeService.getTotalCount()));
     }
 
-    @PostMapping(value = "/analyze", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/analyze", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> analyzeResume(
             @RequestParam("file")                                    MultipartFile file,
             @RequestParam(value = "jobDescription", required = false) String jobDescription,
@@ -73,7 +74,7 @@ public class ResumeController {
         }
     }
 
-    @GetMapping("/history")
+    @GetMapping(value = "/history", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PagedResponse<AnalysisResponse>> getHistory(
             @RequestParam(defaultValue = "0")  int page,
             @RequestParam(defaultValue = "10") int size,
@@ -82,7 +83,7 @@ public class ResumeController {
         return ResponseEntity.ok(resumeService.getHistory(page, size, username));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getById(@PathVariable Long id, Authentication authentication) {
         String username = authentication != null ? authentication.getName() : null;
         try {

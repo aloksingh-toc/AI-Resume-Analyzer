@@ -1,0 +1,13 @@
+/* HistoryList.module.css */
+.container { background: linear-gradient(145deg, #ffffff, #f0f4ff); border: 1px solid #c7d2fe; border-radius: 20px; padding: 24px; box-shadow: 0 4px 24px rgba(99,102,241,0.10); }
+.heading { font-size: 17px; font-weight: 700; color: #0f172a; margin-bottom: 16px; }
+.list { display: flex; flex-direction: column; gap: 8px; }
+.card { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-radius: 10px; cursor: pointer; }
+.pdfBadge { font-size: 10px; font-weight: 700; color: #d97706; background: #fef3c7; border: 1px solid #f0d070; padding: 3px 7px; border-radius: 5px; }
+.cardLeft { display: flex; align-items: center; gap: 12px; }
+.cardName { color: #0f172a; font-weight: 500; font-size: 14px; margin-bottom: 2px; }
+.cardDate { color: #6b7280; font-size: 12px; }
+.scoreBadge { padding: 4px 13px; border-radius: 999px; font-weight: 800; font-size: 14px; }
+.empty { text-align: center; padding: 48px 32px; background: linear-gradient(145deg, #ffffff, #f0f4ff); border: 1px solid #c7d2fe; border-radius: 20px; box-shadow: 0 4px 24px rgba(99,102,241,0.10); }
+.loadMoreBtn { margin-top: 14px; width: 100%; padding: 10px; background: transparent; border: 1px solid #c7d2fe; border-radius: 8px; color: #6b7280; font-size: 14px; cursor: pointer; transition: all 0.2s; }
+.loadMoreDisabled { opacity: 0.45; cursor: not-allowed; }

@@ -21,7 +21,7 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
         try {
             return MAPPER.writeValueAsString(list);
         } catch (Exception e) {
-            return null;
+            throw new IllegalStateException("Failed to serialise list to JSON: " + list, e);
         }
     }
 
@@ -32,7 +32,7 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
         try {
             return MAPPER.readValue(data, List.class);
         } catch (Exception e) {
-            return List.of();
+            throw new IllegalStateException("Failed to deserialise JSON to list: " + data, e);
         }
     }
 }

@@ -27,14 +27,20 @@ public final class AuthUtils {
     /**
      * Stores the supplied Authentication in the Spring Security context and in
      * the HTTP session so subsequent requests are recognised as logged in.
+     * Invalidates any existing session first to prevent session-fixation attacks.
      * Call this after a successful login or registration.
      */
     public static void establishSession(Authentication auth, HttpServletRequest request) {
+        // Prevent session fixation: invalidate old session, create a fresh one
+        HttpSession oldSession = request.getSession(false);
+        if (oldSession != null) {
+            oldSession.invalidate();
+        }
         SecurityContext sc = SecurityContextHolder.createEmptyContext();
         sc.setAuthentication(auth);
         SecurityContextHolder.setContext(sc);
-        HttpSession session = request.getSession(true);
-        session.setAttribute(
+        HttpSession newSession = request.getSession(true);
+        newSession.setAttribute(
             HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
     }
 }

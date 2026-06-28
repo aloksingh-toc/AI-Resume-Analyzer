@@ -25,6 +25,27 @@ input, button, textarea, select {
 @keyframes spin    { to   { transform: rotate(360deg); } }
 @keyframes pulse   { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
+/* ProcessingOverlay pulse rings */
+@keyframes ringPulseAnim {
+  0%   { transform: translate(-50%, -50%) scale(0.85); opacity: 0.7; }
+  50%  { transform: translate(-50%, -50%) scale(1.05); opacity: 0.25; }
+  100% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.7; }
+}
+@keyframes ringPulse2Anim {
+  0%   { transform: translate(-50%, -50%) scale(0.7); opacity: 0.5; }
+  50%  { transform: translate(-50%, -50%) scale(1.2); opacity: 0.15; }
+  100% { transform: translate(-50%, -50%) scale(0.7); opacity: 0.5; }
+}
+@keyframes shimmerAnim {
+  0%   { opacity: 0.4; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.4; }
+}
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 :focus-visible {
   outline: 2px solid #6366f1;
   outline-offset: 2px;
@@ -203,6 +224,19 @@ input, button, textarea, select {
 @media (max-width: 600px) {
   .template-grid { grid-template-columns: 1fr; }
   .category-pills { gap: 6px; }
+}
+
+/* ─────────────────────────────────────────────
+   HISTORY LIST hover states
+───────────────────────────────────────────── */
+.history-card {
+  background: #f0f4ff;
+  border: 1px solid #c7d2fe;
+  transition: all 0.2s;
+}
+.history-card:hover {
+  background: #eef2ff;
+  border-color: #a5b4fc;
 }
 
 /* ─────────────────────────────────────────────

@@ -1,0 +1,51 @@
+/* FeedbackDisplay.module.css */
+.container {
+  background: linear-gradient(145deg, #ffffff, #f0f4ff);
+  border: 1px solid #c7d2fe;
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 4px 24px rgba(99,102,241,0.10);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+.heading {
+  font-size: 19px; font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 3px;
+}
+
+.filename {
+  font-size: 12px; color: #6b7280;
+}
+
+.downloadBtn {
+  background: transparent;
+  border: 1px solid #c7d2fe;
+  color: #374151;
+  padding: 7px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px; font-weight: 600;
+  white-space: nowrap;
+}
+
+.infoStrip { display: flex; gap: 10px; }
+.infoCard {
+  flex: 1;
+  background: #eef2ff;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  border: 1px solid #c7d2fe;
+}
+.infoLabel {
+  font-size: 10px; color: #6b7280;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.infoValue { font-size: 14px; font-weight: 700; color: #0f172a; }

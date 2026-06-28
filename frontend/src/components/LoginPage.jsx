@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { login, register } from '../services/api'
 import { lightTokens, C as _theme } from '../theme'
 import { getOAuthUrl } from '../constants'
+import s from './LoginPage.module.css'
 
 const C = { ...lightTokens, bg: _theme.bg, warm: _theme.accentWarm, grad: _theme.gradient }
 
@@ -21,7 +22,9 @@ export default function LoginPage({ onLogin, onClose, message }) {
     setError('')
     if (tab === 'signup') {
       if (password !== confirmPassword) { setError('Passwords do not match'); return }
-      if (password.length < 6) { setError('Password must be at least 6 characters'); return }
+      if (password.length < 8) { setError('Password must be at least 8 characters'); return }
+      if (!/[A-Z]/.test(password)) { setError('Password must contain at least one uppercase letter'); return }
+      if (!/[0-9]/.test(password)) { setError('Password must contain at least one digit'); return }
     }
     setLoading(true)
     try {
@@ -43,21 +46,21 @@ export default function LoginPage({ onLogin, onClose, message }) {
   const card = (
     <div style={{ ...styles.card, ...(isModal ? styles.cardModal : {}) }}>
       {isModal && (
-        <button onClick={onClose} style={styles.closeBtn} aria-label="Close">✕</button>
+        <button onClick={onClose} className={s.closeBtn} aria-label="Close">✕</button>
       )}
 
-      <div style={styles.logoRow}>
-        <div style={styles.logoMark}>R</div>
-        <span style={styles.logoText}>AI Resume Analyzer</span>
+      <div className={s.logoRow}>
+        <div className={s.logoMark}>R</div>
+        <span className={s.logoText}>AI Resume Analyzer</span>
       </div>
 
       {message && (
-        <div style={styles.messageBanner}>
+        <div className={s.messageBanner}>
           <span>✦</span> {message}
         </div>
       )}
 
-      <div style={styles.tabs}>
+      <div className={s.tabs}>
         <button
           onClick={() => setTab('signin')}
           style={{ ...styles.tabBtn, ...(tab === 'signin' ? styles.tabActive : {}) }}
@@ -68,8 +71,8 @@ export default function LoginPage({ onLogin, onClose, message }) {
         >Sign Up</button>
       </div>
 
-      <div style={styles.oauthSection}>
-        <button onClick={() => handleOAuth('google')} style={styles.oauthBtn}>
+      <div className={s.oauthSection}>
+        <button onClick={() => handleOAuth('google')} className={s.oauthBtn}>
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
             <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/>
             <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z" fill="#34A853"/>
@@ -82,37 +85,37 @@ export default function LoginPage({ onLogin, onClose, message }) {
 
       {tab === 'signin' && (
         <>
-          <div style={styles.divider}>
-            <span style={styles.dividerLine} />
-            <span style={styles.dividerText}>or sign in with username</span>
-            <span style={styles.dividerLine} />
+          <div className={s.divider}>
+            <span className={s.dividerLine} />
+            <span className={s.dividerText}>or sign in with username</span>
+            <span className={s.dividerLine} />
           </div>
 
-          <form onSubmit={handleSubmit} style={styles.form}>
-            <div style={styles.field}>
-              <label style={styles.label}>Username</label>
+          <form onSubmit={handleSubmit} className={s.form}>
+            <div className={s.field}>
+              <label className={s.label}>Username</label>
               <input
                 type="text"
                 value={username}
                 onChange={e => setUsername(e.target.value)}
-                style={styles.input}
+                className={s.input}
                 placeholder="Enter username"
                 required
                 autoFocus
               />
             </div>
-            <div style={styles.field}>
-              <label style={styles.label}>Password</label>
+            <div className={s.field}>
+              <label className={s.label}>Password</label>
               <input
                 type="password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                style={styles.input}
+                className={s.input}
                 placeholder="Enter password"
                 required
               />
             </div>
-            {error && <p style={styles.error}>{error}</p>}
+            {error && <p className={s.error}>{error}</p>}
             <button
               type="submit"
               disabled={loading}
@@ -126,58 +129,70 @@ export default function LoginPage({ onLogin, onClose, message }) {
 
       {tab === 'signup' && (
         <>
-          <div style={styles.divider}>
-            <span style={styles.dividerLine} />
-            <span style={styles.dividerText}>or sign up with username</span>
-            <span style={styles.dividerLine} />
+          <div className={s.divider}>
+            <span className={s.dividerLine} />
+            <span className={s.dividerText}>or sign up with username</span>
+            <span className={s.dividerLine} />
           </div>
 
-          <form onSubmit={handleSubmit} style={styles.form}>
-            <div style={styles.field}>
-              <label style={styles.label}>Username <span style={{ color: C.muted }}>(min 3 chars)</span></label>
+          <form onSubmit={handleSubmit} className={s.form}>
+            <div className={s.field}>
+              <label className={s.label}>Username <span style={{ color: C.muted }}>(min 3 chars)</span></label>
               <input
                 type="text"
                 value={username}
                 onChange={e => setUsername(e.target.value)}
-                style={styles.input}
+                className={s.input}
                 placeholder="Choose a username"
                 required
                 autoFocus
               />
             </div>
-            <div style={styles.field}>
-              <label style={styles.label}>Email <span style={{ color: C.muted }}>(optional)</span></label>
+            <div className={s.field}>
+              <label className={s.label}>Email <span style={{ color: C.muted }}>(optional)</span></label>
               <input
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                style={styles.input}
+                className={s.input}
                 placeholder="your@email.com"
               />
             </div>
-            <div style={styles.field}>
-              <label style={styles.label}>Password <span style={{ color: C.muted }}>(min 6 chars)</span></label>
+            <div className={s.field}>
+              <label className={s.label}>Password</label>
               <input
                 type="password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                style={styles.input}
-                placeholder="Choose a password"
+                className={s.input}
+                placeholder="Min 8 chars, 1 uppercase, 1 digit"
                 required
+                minLength={8}
               />
+              <div className={s.pwHints}>
+                <span style={{ color: password.length >= 8 ? '#16a34a' : C.muted }}>
+                  {password.length >= 8 ? '✓' : '○'} 8+ characters
+                </span>
+                <span style={{ color: /[A-Z]/.test(password) ? '#16a34a' : C.muted }}>
+                  {/[A-Z]/.test(password) ? '✓' : '○'} Uppercase letter
+                </span>
+                <span style={{ color: /[0-9]/.test(password) ? '#16a34a' : C.muted }}>
+                  {/[0-9]/.test(password) ? '✓' : '○'} One digit
+                </span>
+              </div>
             </div>
-            <div style={styles.field}>
-              <label style={styles.label}>Confirm Password</label>
+            <div className={s.field}>
+              <label className={s.label}>Confirm Password</label>
               <input
                 type="password"
                 value={confirmPassword}
                 onChange={e => setConfirm(e.target.value)}
-                style={styles.input}
+                className={s.input}
                 placeholder="Repeat your password"
                 required
               />
             </div>
-            {error && <p style={styles.error}>{error}</p>}
+            {error && <p className={s.error}>{error}</p>}
             <button
               type="submit"
               disabled={loading}
@@ -200,33 +215,8 @@ export default function LoginPage({ onLogin, onClose, message }) {
   if (isModal) return card
 
   return (
-    <div style={styles.page}>{card}</div>
+    <div className={s.page}>{card}</div>
   )
 }
 
-const styles = {
-  page:          { minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#060d1a', padding: '24px' },
-  card:          { background: C.card, border: `1px solid ${C.border}`, borderRadius: '20px', padding: '36px', width: '100%', maxWidth: '420px', position: 'relative' },
-  cardModal:     { boxShadow: '0 25px 60px rgba(0,0,0,0.5)' },
-  closeBtn:      { position: 'absolute', top: '16px', right: '16px', background: 'transparent', border: 'none', color: C.muted, fontSize: '18px', cursor: 'pointer', lineHeight: 1 },
-  logoRow:       { display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px', justifyContent: 'center' },
-  logoMark:      { width: '32px', height: '32px', borderRadius: '8px', background: C.gradient, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '900', fontSize: '16px', color: '#fff' },
-  logoText:      { fontSize: '17px', fontWeight: '700', color: C.text },
-  messageBanner: { background: '#eef2ff', border: `1px solid ${C.border}`, borderLeft: `3px solid ${C.accent}`, borderRadius: '8px', padding: '10px 14px', color: C.sub, fontSize: '13px', marginBottom: '16px', display: 'flex', gap: '8px', alignItems: 'flex-start' },
-  tabs:          { display: 'flex', background: '#eef2ff', borderRadius: '10px', padding: '4px', marginBottom: '20px', gap: '4px' },
-  tabBtn:        { flex: 1, padding: '8px', borderRadius: '8px', border: 'none', background: 'transparent', color: C.muted, cursor: 'pointer', fontSize: '14px', fontWeight: '500', transition: 'all 0.2s' },
-  tabActive:     { background: '#ffffff', color: C.text, boxShadow: '0 1px 4px rgba(0,0,0,0.10)' },
-  oauthSection:  { display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '4px' },
-  oauthBtn:      { display: 'flex', alignItems: 'center', gap: '10px', padding: '11px 16px', background: '#f8faff', border: `1px solid ${C.border}`, borderRadius: '10px', color: C.text, cursor: 'pointer', fontSize: '14px', fontWeight: '500', transition: 'all 0.2s', justifyContent: 'center' },
-  divider:       { display: 'flex', alignItems: 'center', gap: '12px', margin: '20px 0' },
-  dividerLine:   { flex: 1, height: '1px', background: C.border },
-  dividerText:   { color: C.muted, fontSize: '12px', whiteSpace: 'nowrap' },
-  form:          { display: 'flex', flexDirection: 'column', gap: '14px' },
-  field:         { display: 'flex', flexDirection: 'column', gap: '6px' },
-  label:         { color: C.sub, fontSize: '13px', fontWeight: '500' },
-  input:         { background: '#f8faff', border: `1px solid ${C.border}`, borderRadius: '8px', color: C.text, padding: '10px 14px', fontSize: '14px', outline: 'none', width: '100%', boxSizing: 'border-box', transition: 'border-color 0.2s' },
-  error:         { color: '#dc2626', fontSize: '13px', margin: 0 },
-  submitBtn:     { background: C.gradient, border: 'none', borderRadius: '10px', color: '#fff', fontSize: '15px', fontWeight: '700', padding: '12px', cursor: 'pointer', width: '100%', marginTop: '4px' },
-  btnDisabled:   { opacity: 0.6, cursor: 'not-allowed' },
-  signupNote:    { paddingTop: '8px' },
-}
+

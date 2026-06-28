@@ -11,5 +11,16 @@ export default defineConfig({
         changeOrigin: true,
       }
     }
-  }
+  },
+  build: {
+    minify: 'esbuild',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+        },
+      },
+    },
+  },
 })

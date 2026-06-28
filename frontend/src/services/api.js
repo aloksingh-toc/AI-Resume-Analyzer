@@ -27,15 +27,41 @@ api.interceptors.response.use(
   }
 )
 
+// ── Request cancellation support ────────────────────────────────────────
+
+let activeAnalysisController = null
+
+/**
+ * Cancels any in-flight analysis request (e.g. when user navigates away).
+ * Call this on component unmount or before starting a new analysis.
+ */
+export const cancelActiveAnalysis = () => {
+  if (activeAnalysisController) {
+    activeAnalysisController.abort()
+    activeAnalysisController = null
+  }
+}
+
+// ── API methods ─────────────────────────────────────────────────────────
+
 export const analyzeResume = async (file, jobDescription = '', industry = '') => {
+  cancelActiveAnalysis() // cancel any previous analysis
+  activeAnalysisController = new AbortController()
+
   const formData = new FormData()
   formData.append('file', file)
   if (jobDescription && jobDescription.trim()) formData.append('jobDescription', jobDescription.trim())
   if (industry && industry.trim())            formData.append('industry', industry.trim())
-  const response = await api.post('/analyze', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  })
-  return response.data
+
+  try {
+    const response = await api.post('/analyze', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      signal: activeAnalysisController.signal,
+    })
+    return response.data
+  } finally {
+    activeAnalysisController = null
+  }
 }
 
 export const getStats = async () => {

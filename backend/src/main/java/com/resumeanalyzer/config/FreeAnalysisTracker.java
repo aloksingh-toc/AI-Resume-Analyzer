@@ -21,14 +21,26 @@ public class FreeAnalysisTracker {
     private static final long WINDOW_MILLIS = 24L * 60 * 60 * 1000; // 24 hours
     private static final int  MAX_ENTRIES   = 10_000;                // memory guard
 
-    /** value[0] = count,  value[1] = window-start epoch-millis */
-    private final Map<String, long[]> counts = new ConcurrentHashMap<>();
+    /** Immutable tracking record: count of analyses used, window start epoch-millis. */
+    private record WindowEntry(long count, long windowStart) {
+        boolean isExpired() {
+            return Instant.now().toEpochMilli() - windowStart > WINDOW_MILLIS;
+        }
+        WindowEntry increment() {
+            return new WindowEntry(count + 1, windowStart);
+        }
+        WindowEntry decrement() {
+            return new WindowEntry(Math.max(0, count - 1), windowStart);
+        }
+    }
+
+    private final Map<String, WindowEntry> counts = new ConcurrentHashMap<>();
 
     public boolean hasUsedFreeAnalysis(String ip) {
-        long[] rec = counts.get(ip);
+        WindowEntry rec = counts.get(ip);
         if (rec == null) return false;
-        if (isExpired(rec)) { counts.remove(ip); return false; }
-        return rec[0] >= FREE_LIMIT;
+        if (rec.isExpired()) { counts.remove(ip); return false; }
+        return rec.count() >= FREE_LIMIT;
     }
 
     /**
@@ -42,36 +54,33 @@ public class FreeAnalysisTracker {
         long now = Instant.now().toEpochMilli();
         boolean[] allowed = new boolean[1];
         counts.compute(ip, (key, existing) -> {
-            long[] rec = (existing == null || isExpired(existing)) ? new long[]{ 0, now } : existing;
-            if (rec[0] >= FREE_LIMIT) {
+            WindowEntry rec = (existing == null || existing.isExpired())
+                ? new WindowEntry(0, now)
+                : existing;
+            if (rec.count() >= FREE_LIMIT) {
                 allowed[0] = false;
-            } else {
-                rec[0]++;
-                allowed[0] = true;
+                return rec;
             }
-            return rec;
+            allowed[0] = true;
+            return rec.increment();
         });
         return allowed[0];
     }
 
     /** Gives back a reserved slot, e.g. when the analysis that consumed it failed. */
     public void release(String ip) {
-        counts.computeIfPresent(ip, (key, rec) -> { if (rec[0] > 0) rec[0]--; return rec; });
+        counts.computeIfPresent(ip, (key, rec) -> rec.decrement());
     }
 
     // ── Internals ────────────────────────────────────────────────────────────
 
-    private boolean isExpired(long[] rec) {
-        return Instant.now().toEpochMilli() - rec[1] > WINDOW_MILLIS;
-    }
-
     /** Remove entries whose 24-hour window has passed, and cap map size. */
     private void purgeStale() {
         if (counts.size() < MAX_ENTRIES / 2) return; // skip purge when map is small
-        Iterator<Map.Entry<String, long[]>> it = counts.entrySet().iterator();
+        Iterator<Map.Entry<String, WindowEntry>> it = counts.entrySet().iterator();
         int removed = 0;
         while (it.hasNext() && removed < MAX_ENTRIES / 4) {
-            if (isExpired(it.next().getValue())) { it.remove(); removed++; }
+            if (it.next().getValue().isExpired()) { it.remove(); removed++; }
         }
     }
 }

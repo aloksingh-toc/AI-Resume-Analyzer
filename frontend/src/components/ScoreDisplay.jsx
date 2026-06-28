@@ -1,4 +1,5 @@
 import { C, scoreInfo, tracking } from '../theme'
+import s from './ScoreDisplay.module.css'
 
 export default function ScoreDisplay({ score, analysis }) {
   // scoreInfo from theme.js — same logic, single source of truth
@@ -21,11 +22,11 @@ export default function ScoreDisplay({ score, analysis }) {
   ]
 
   return (
-    <div style={styles.container}>
-      <h3 style={styles.heading}>Resume Score</h3>
+    <div className={s.container}>
+      <h3 className={s.heading}>Resume Score</h3>
 
       {/* Ring */}
-      <div style={styles.circleWrap}>
+      <div className={s.circleWrap}>
         <svg width="100%" height="100%" viewBox="0 0 180 180">
           <circle cx="90" cy="90" r={radius} fill="none" stroke="#ddd6fe" strokeWidth="14" />
           <circle
@@ -40,30 +41,30 @@ export default function ScoreDisplay({ score, analysis }) {
             style={{ transition: 'stroke-dashoffset 1.2s ease', filter: `drop-shadow(0 0 6px ${fill}55)` }}
           />
         </svg>
-        <div style={styles.scoreInner}>
-          <span style={{ ...styles.scoreNumber, color: text }}>{score}</span>
-          <span style={styles.outOf}>/100</span>
+        <div className={s.scoreInner}>
+          <span className={s.scoreNumber} style={{ color: text }}>{score}</span>
+          <span className={s.outOf}>/100</span>
         </div>
       </div>
 
       {/* Badge */}
-      <div style={{ ...styles.badge, background: fill + '18', border: `1px solid ${fill}55` }}>
+      <div className={s.badge} style={{ background: fill + '18', border: `1px solid ${fill}55` }}>
         <span style={{ color: text, fontWeight: '700', fontSize: '14px' }}>{label}</span>
       </div>
 
       {/* Section bars */}
-      <div style={styles.bars}>
+      <div className={s.bars}>
         {sections.map(({ label: l, value, max }) => {
           const isNull   = value == null
           const pct      = isNull ? 0 : Math.round((value / max) * 100)
           const barColor = isNull ? '#d1d5db' : getColor(pct).fill
           return (
-            <div key={l} style={styles.barRow}>
-              <span style={styles.barLabel}>{l}</span>
-              <div style={styles.barTrack}>
-                {!isNull && <div style={{ ...styles.barFill, width: `${Math.max(4, pct)}%`, background: barColor }} />}
+            <div key={l} className={s.barRow}>
+              <span className={s.barLabel}>{l}</span>
+              <div className={s.barTrack}>
+                {!isNull && <div className={s.barFill} style={{ width: `${Math.max(4, pct)}%`, background: barColor }} />}
               </div>
-              <span style={{ ...styles.barValue, color: barColor }}>
+              <span className={s.barValue} style={{ color: barColor }}>
                 {isNull ? 'N/A' : `${value}/${max}`}
               </span>
             </div>
@@ -74,18 +75,4 @@ export default function ScoreDisplay({ score, analysis }) {
   )
 }
 
-const styles = {
-  container:   { background: C.card_light, border: `1px solid ${C.border}`, borderRadius: '20px', padding: '28px', textAlign: 'center', boxShadow: '0 4px 24px rgba(99,102,241,0.10)' },
-  heading:     { fontSize: '13px', fontWeight: '600', color: C.muted, textTransform: 'uppercase', letterSpacing: tracking.wide, marginBottom: '20px' },
-  circleWrap:  { position: 'relative', display: 'block', width: '180px', maxWidth: '100%', margin: '0 auto 16px', aspectRatio: '1' },
-  scoreInner:  { position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', display: 'flex', alignItems: 'baseline', gap: '2px' },
-  scoreNumber: { fontSize: '44px', fontWeight: '900', lineHeight: 1 },
-  outOf:       { fontSize: '16px', color: C.muted, fontWeight: '500' },
-  badge:       { display: 'inline-block', padding: '6px 20px', borderRadius: '999px', marginBottom: '24px' },
-  bars:        { display: 'flex', flexDirection: 'column', gap: '10px', textAlign: 'left' },
-  barRow:      { display: 'flex', alignItems: 'center', gap: '10px' },
-  barLabel:    { fontSize: '12px', color: C.sub, width: '80px', flexShrink: 0 },
-  barTrack:    { flex: 1, height: '6px', background: '#ddd6fe', borderRadius: '999px', overflow: 'hidden' },
-  barFill:     { height: '100%', borderRadius: '999px', transition: 'width 1s ease' },
-  barValue:    { fontSize: '11px', fontWeight: '700', width: '36px', textAlign: 'right' },
-}
+
