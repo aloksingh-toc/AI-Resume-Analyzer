@@ -9,6 +9,7 @@ import ResumeTips from './components/ResumeTips'
 import TemplateGallery from './components/TemplateGallery'
 import HowItWorks from './components/HowItWorks'
 import { analyzeResume, getHistory, getMe, logout, setUnauthorizedHandler, getStats } from './services/api'
+import { useToast } from './utils/interactive.jsx'
 import { darkTokens as C, C as rawTokens, tracking } from './theme'
 import { FREE_ANALYSIS_LIMIT } from './constants'
 import s from './App.module.css'
@@ -38,6 +39,7 @@ export default function App() {
   const [totalAnalyses, setTotalAnalyses]     = useState(null)   // Rec #3 social proof
   const [totalHistoryCount, setTotalHistoryCount] = useState(0)  // L-1 true total (not paginated)
   const historyRequestId                     = useRef(0)        // guards against out-of-order responses
+  const { ToastContainer }                   = useToast()
 
   useEffect(() => {
     setUnauthorizedHandler(() => setIsAuthenticated(false))
@@ -298,6 +300,9 @@ export default function App() {
 
       {/* ── Processing Overlay ── */}
       {loading && analyzingFile && <ProcessingOverlay filename={analyzingFile} />}
+
+      {/* ── Toast Notifications ── */}
+      <ToastContainer />
     </div>
   )
 }

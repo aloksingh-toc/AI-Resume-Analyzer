@@ -1,6 +1,7 @@
 import { C } from '../theme'
 import s from './FeedbackDisplay.module.css'
 import { downloadReport } from '../utils/reportDownload'
+import { copyToClipboard } from '../utils/interactive.jsx'
 import JdMatchPanel      from './feedback/JdMatchPanel'
 import AtsPanel          from './feedback/AtsPanel'
 import KeywordsPanel     from './feedback/KeywordsPanel'
@@ -17,9 +18,28 @@ export default function FeedbackDisplay({ analysis }) {
             {analysis.filename}{analysis.industry ? ` · ${analysis.industry}` : ''}
           </p>
         </div>
-        <button onClick={() => downloadReport(analysis)} className={s.downloadBtn}>
-          Download Report
-        </button>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button
+            onClick={() => {
+              const text = [
+                `Score: ${analysis.score}/100`,
+                `Summary: ${analysis.summaryFeedback || 'N/A'}`,
+                `Skills: ${analysis.skillsFeedback || 'N/A'}`,
+                `Experience: ${analysis.experienceFeedback || 'N/A'}`,
+                `Formatting: ${analysis.formattingFeedback || 'N/A'}`,
+                `Overall: ${analysis.overallFeedback || 'N/A'}`,
+              ].join('\n\n')
+              copyToClipboard(text, 'Feedback')
+            }}
+            className={s.downloadBtn}
+            title="Copy feedback to clipboard"
+          >
+            📋 Copy
+          </button>
+          <button onClick={() => downloadReport(analysis)} className={s.downloadBtn}>
+            📥 Report
+          </button>
+        </div>
       </div>
 
       <JdMatchPanel      jdMatchScore={analysis.jdMatchScore} />

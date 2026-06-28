@@ -1,4 +1,5 @@
 import { C, scoreInfo, tracking } from '../theme'
+import AnimatedCounter from '../utils/AnimatedCounter.jsx'
 import s from './ScoreDisplay.module.css'
 
 export default function ScoreDisplay({ score, analysis }) {
@@ -42,7 +43,9 @@ export default function ScoreDisplay({ score, analysis }) {
           />
         </svg>
         <div className={s.scoreInner}>
-          <span className={s.scoreNumber} style={{ color: text }}>{score}</span>
+          <span className={s.scoreNumber} style={{ color: text }}>
+            <AnimatedCounter target={score} />
+          </span>
           <span className={s.outOf}>/100</span>
         </div>
       </div>
