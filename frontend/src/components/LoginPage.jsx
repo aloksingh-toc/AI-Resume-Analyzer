@@ -44,7 +44,7 @@ export default function LoginPage({ onLogin, onClose, message }) {
   }
 
   const card = (
-    <div style={{ ...styles.card, ...(isModal ? styles.cardModal : {}) }}>
+    <div className={`${s.card} ${isModal ? s.cardModal : ''}`}>
       {isModal && (
         <button onClick={onClose} className={s.closeBtn} aria-label="Close">✕</button>
       )}
@@ -63,11 +63,11 @@ export default function LoginPage({ onLogin, onClose, message }) {
       <div className={s.tabs}>
         <button
           onClick={() => setTab('signin')}
-          style={{ ...styles.tabBtn, ...(tab === 'signin' ? styles.tabActive : {}) }}
+          className={`${s.tabBtn} ${tab === 'signin' ? s.tabActive : ''}`}
         >Sign In</button>
         <button
           onClick={() => setTab('signup')}
-          style={{ ...styles.tabBtn, ...(tab === 'signup' ? styles.tabActive : {}) }}
+          className={`${s.tabBtn} ${tab === 'signup' ? s.tabActive : ''}`}
         >Sign Up</button>
       </div>
 
@@ -119,7 +119,7 @@ export default function LoginPage({ onLogin, onClose, message }) {
             <button
               type="submit"
               disabled={loading}
-              style={{ ...styles.submitBtn, ...(loading ? styles.btnDisabled : {}) }}
+              className={`${s.submitBtn} ${loading ? s.btnDisabled : ''}`}
             >
               {loading ? 'Signing in…' : 'Sign In'}
             </button>
@@ -196,7 +196,7 @@ export default function LoginPage({ onLogin, onClose, message }) {
             <button
               type="submit"
               disabled={loading}
-              style={{ ...styles.submitBtn, ...(loading ? styles.btnDisabled : {}) }}
+              className={`${s.submitBtn} ${loading ? s.btnDisabled : ''}`}
             >
               {loading ? 'Creating account…' : 'Create Account'}
             </button>

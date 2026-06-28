@@ -123,6 +123,7 @@
 .fileName { color: #0f172a; font-weight: 600; font-size: 14px; text-align: left; margin-bottom: 2px; }
 .fileSize { color: #6b7280; font-size: 12px; text-align: left; }
 
+.dropContent {}
 .uploadIcon { margin-bottom: 12px; }
 .dropText { color: #374151; font-weight: 500; font-size: 15px; margin-bottom: 4px; }
 .dropHint { color: #6b7280; font-size: 13px; }

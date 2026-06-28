@@ -28,7 +28,7 @@ export default function HistoryList({ history, onSelect, hasMore, onLoadMore, lo
                 <p className={s.cardDate}>{new Date(item.submittedAt).toLocaleString()}</p>
               </div>
             </div>
-            <div style={{ ...styles.scoreBadge, background: scoreColor(item.score) + '18', border: `1px solid ${scoreColor(item.score)}44`, color: scoreColor(item.score) }}>
+            <div className={s.scoreBadge} style={{ background: scoreColor(item.score) + '18', border: `1px solid ${scoreColor(item.score)}44`, color: scoreColor(item.score) }}>
               {item.score}
             </div>
           </div>
@@ -39,7 +39,7 @@ export default function HistoryList({ history, onSelect, hasMore, onLoadMore, lo
         <button
           onClick={onLoadMore}
           disabled={loading}
-          style={{ ...styles.loadMoreBtn, ...(loading ? styles.loadMoreDisabled : {}) }}
+          className={`${s.loadMoreBtn} ${loading ? s.loadMoreDisabled : ''}`}
         >
           {loading ? 'Loading…' : 'Load More'}
         </button>

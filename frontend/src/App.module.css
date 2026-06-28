@@ -3,7 +3,37 @@
    Extracted from App.jsx inline styles.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* ── Header & Navigation ────────────────────────────────────────────────── */
+/* ── Header & Logo ─────────────────────────────────────────────────────── */
+.header {
+  border-bottom: 1px solid #1a2744;
+  background: rgba(6,13,26,0.90);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logoMark {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 16px; color: #fff;
+}
+
+.logoText {
+  font-size: 17px; font-weight: 700;
+  color: #f1f5f9;
+  letter-spacing: -0.3px;
+}
+
+/* ── Navigation ────────────────────────────────────────────────────────── */
 .navBtn {
   padding: 7px 16px;
   border-radius: 8px;
