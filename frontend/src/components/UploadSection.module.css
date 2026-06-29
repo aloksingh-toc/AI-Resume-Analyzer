@@ -45,6 +45,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 8px;
+  animation: fadeIn 0.2s ease;
 }
 .industryChip {
   display: flex; align-items: center; gap: 8px;

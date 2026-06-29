@@ -4,25 +4,45 @@ import { lightTokens as C, tracking } from '../theme'
 import { MAX_FILE_SIZE_MB, MAX_FILE_SIZE_BYTES } from '../constants'
 import s from './UploadSection.module.css'
 
-const INDUSTRIES = [
-  { value: 'Software / IT',           icon: '💻', color: '#6366f1' },
-  { value: 'Data Science / AI',       icon: '🤖', color: '#8b5cf6' },
-  { value: 'DevOps / Cloud',          icon: '☁️', color: '#0891b2' },
-  { value: 'Cybersecurity',           icon: '🔒', color: '#059669' },
-  { value: 'Banking / Finance',       icon: '🏦', color: '#d97706' },
-  { value: 'Investment Banking',      icon: '📈', color: '#dc2626' },
-  { value: 'Accounting / Audit',      icon: '📊', color: '#7c3aed' },
-  { value: 'Marketing / Growth',      icon: '📣', color: '#db2777' },
-  { value: 'Sales / Business Development', icon: '🤝', color: '#ea580c' },
-  { value: 'Human Resources',         icon: '👥', color: '#2563eb' },
-  { value: 'Operations / Supply Chain', icon: '🚚', color: '#4f46e5' },
-  { value: 'Healthcare / Clinical',   icon: '🏥', color: '#16a34a' },
-  { value: 'Pharma / Biotech',        icon: '🧬', color: '#9333ea' },
-  { value: 'Consulting / Strategy',   icon: '💡', color: '#f59e0b' },
-  { value: 'Legal',                   icon: '⚖️',  color: '#475569' },
-  { value: 'Education',               icon: '📚', color: '#0284c7' },
-  { value: 'Creative / Design',       icon: '🎨', color: '#ec4899' },
-  { value: 'Other',                   icon: '📋', color: '#6b7280' },
+const INDUSTRY_GROUPS = [
+  {
+    name: '💻 Technology',
+    items: [
+      { value: 'Software / IT',           icon: '💻', color: '#6366f1' },
+      { value: 'Data Science / AI',       icon: '🤖', color: '#8b5cf6' },
+      { value: 'DevOps / Cloud',          icon: '☁️', color: '#0891b2' },
+      { value: 'Cybersecurity',           icon: '🔒', color: '#059669' },
+    ]
+  },
+  {
+    name: '💰 Finance & Business',
+    items: [
+      { value: 'Banking / Finance',       icon: '🏦', color: '#d97706' },
+      { value: 'Investment Banking',      icon: '📈', color: '#dc2626' },
+      { value: 'Accounting / Audit',      icon: '📊', color: '#7c3aed' },
+      { value: 'Consulting / Strategy',   icon: '💡', color: '#f59e0b' },
+      { value: 'Sales / Business Development', icon: '🤝', color: '#ea580c' },
+      { value: 'Marketing / Growth',      icon: '📣', color: '#db2777' },
+    ]
+  },
+  {
+    name: '🏥 Healthcare & Science',
+    items: [
+      { value: 'Healthcare / Clinical',   icon: '🏥', color: '#16a34a' },
+      { value: 'Pharma / Biotech',        icon: '🧬', color: '#9333ea' },
+    ]
+  },
+  {
+    name: '📋 Professional Services',
+    items: [
+      { value: 'Human Resources',         icon: '👥', color: '#2563eb' },
+      { value: 'Operations / Supply Chain', icon: '🚚', color: '#4f46e5' },
+      { value: 'Legal',                   icon: '⚖️',  color: '#475569' },
+      { value: 'Education',               icon: '📚', color: '#0284c7' },
+      { value: 'Creative / Design',       icon: '🎨', color: '#ec4899' },
+      { value: 'Other',                   icon: '📋', color: '#6b7280' },
+    ]
+  },
 ]
 
 export default function UploadSection({ onAnalyze, loading }) {
@@ -32,6 +52,8 @@ export default function UploadSection({ onAnalyze, loading }) {
   const [jdOpen, setJdOpen]                 = useState(false)
   const [error, setError]                   = useState('')
   const [pasteFlash, setPasteFlash]         = useState(false)
+  const [industryOpen, setIndustryOpen]       = useState(false)
+  const [expandedGroup, setExpandedGroup]     = useState(null)
 
   const onDrop = useCallback((accepted, rejected) => {
     setError('')
@@ -87,42 +109,89 @@ export default function UploadSection({ onAnalyze, loading }) {
         <p className={s.subtitle}>PDF only · Max {MAX_FILE_SIZE_MB} MB · Results in under 20 seconds</p>
       </div>
 
-      {/* ── Interactive Industry Pills ── */}
-      <div className={s.sectionBlock}>
-        <div className={s.sectionHeader}>
-          <span className={s.sectionIcon}>🎯</span>
-          <span className={s.sectionLabel}>Target Industry</span>
-          {industry && (
-            <button onClick={() => setIndustry('')} className={s.clearBtn}>Clear</button>
-          )}
-        </div>
-        <p className={s.sectionHint}>Select an industry for tailored feedback — or skip for general analysis</p>
-        <div className={s.industryGrid}>
-          {INDUSTRIES.map(({ value, icon, color }) => {
-            const selected = industry === value
-            return (
-              <button
-                key={value}
-                onClick={() => setIndustry(selected ? '' : value)}
-                disabled={loading}
-                className={s.industryChip}
-                style={{
-                  borderColor: selected ? color : 'rgba(255,255,255,0.06)',
-                  background: selected ? color + '14' : 'rgba(255,255,255,0.03)',
-                  boxShadow: selected ? `0 0 0 2px ${color}30` : 'none',
-                  transform: selected ? 'scale(1.03)' : 'scale(1)',
-                }}
-                title={value}
-              >
-                <span className={s.chipIcon}>{icon}</span>
-                <span className={s.chipLabel} style={{ color: selected ? color : '#374151' }}>
-                  {value.length > 22 ? value.slice(0, 20) + '…' : value}
-                </span>
-                {selected && <span className={s.chipCheck} style={{ color }}>✓</span>}
-              </button>
-            )
-          })}
-        </div>
+      {/* ── Collapsible Industry Selector ── */}
+      <div className={`${s.sectionBlock} ${industryOpen ? s.jdSectionOpen : ''}`}>
+        <button
+          type="button"
+          onClick={() => setIndustryOpen(o => !o)}
+          className={s.jdToggle}
+          disabled={loading}
+        >
+          <div className={s.jdToggleLeft}>
+            <span className={s.jdIcon}>🎯</span>
+            <div className={s.jdToggleText}>
+              <span className={s.jdToggleTitle}>
+                Target Industry
+                {industry && <span style={{ color: '#22c55e', marginLeft: '8px', fontSize: '11px' }}>● Selected</span>}
+              </span>
+              <span className={s.jdToggleSub}>
+                {industry ? `Tailored for: ${industry}` : 'Select for industry-specific feedback (optional)'}
+              </span>
+            </div>
+          </div>
+          <div className={s.jdToggleRight}>
+            {industry && (
+              <button onClick={(e) => { e.stopPropagation(); setIndustry(''); }} className={s.clearBtn}>✕ Clear</button>
+            )}
+            <span className={s.jdChevron} style={{ transform: industryOpen ? 'rotate(180deg)' : 'none' }}>▾</span>
+          </div>
+        </button>
+
+        {industryOpen && (
+          <div className={s.jdBody}>
+            {INDUSTRY_GROUPS.map((group) => {
+              const isExpanded = expandedGroup === group.name || expandedGroup === null
+              const hasSelection = group.items.some(item => item.value === industry)
+              return (
+                <div key={group.name} style={{ marginBottom: '10px' }}>
+                  <button
+                    onClick={() => setExpandedGroup(expandedGroup === group.name ? null : group.name)}
+                    style={{
+                      width: '100%', display: 'flex', alignItems: 'center', gap: '8px',
+                      padding: '8px 12px', background: hasSelection ? 'rgba(99,102,241,0.08)' : 'rgba(255,255,255,0.02)',
+                      border: `1px solid ${hasSelection ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.04)'}`,
+                      borderRadius: '8px', cursor: 'pointer', color: '#94a3b8',
+                      fontSize: '13px', fontWeight: '600', textAlign: 'left',
+                      transition: 'all 0.2s',
+                    }}
+                  >
+                    <span style={{ transition: 'transform 0.2s', transform: isExpanded ? 'rotate(90deg)' : 'none', fontSize: '10px' }}>▶</span>
+                    <span>{group.name}</span>
+                    <span style={{ marginLeft: 'auto', fontSize: '10px', color: '#64748b' }}>{group.items.length}</span>
+                  </button>
+                  {isExpanded && (
+                    <div className={s.industryGrid} style={{ marginTop: '8px', padding: '0 4px' }}>
+                      {group.items.map(({ value, icon, color }) => {
+                        const selected = industry === value
+                        return (
+                          <button
+                            key={value}
+                            onClick={() => setIndustry(selected ? '' : value)}
+                            disabled={loading}
+                            className={s.industryChip}
+                            style={{
+                              borderColor: selected ? color : 'rgba(255,255,255,0.06)',
+                              background: selected ? color + '18' : 'rgba(255,255,255,0.03)',
+                              boxShadow: selected ? `0 0 0 2px ${color}30` : 'none',
+                              transform: selected ? 'scale(1.03)' : 'scale(1)',
+                              color: '#94a3b8',
+                            }}
+                          >
+                            <span className={s.chipIcon}>{icon}</span>
+                            <span className={s.chipLabel} style={{ color: selected ? color : '#94a3b8' }}>
+                              {value.length > 22 ? value.slice(0, 20) + '…' : value}
+                            </span>
+                            {selected && <span className={s.chipCheck} style={{ color }}>✓</span>}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        )}
       </div>
 
       {/* ── Interactive JD Section ── */}
