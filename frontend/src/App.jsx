@@ -174,16 +174,16 @@ export default function App() {
           {isAuthenticated && (
             <button onClick={() => { setView('history'); fetchHistory(0) }}
               className={`nav-btn ${view === 'history' ? 'nav-btn-active' : ''}`}>
-              History {totalHistoryCount > 0 && <span className="badge">{totalHistoryCount}</span>}
+              History {totalHistoryCount > 0 && <span className="nav-badge">{totalHistoryCount}</span>}
             </button>
           )}
           {isAuthenticated ? (
             <>
-                <span className={`"user-chip" user-chip-text`}>{username}</span>
-              <button onClick={handleLogout} className="signOutBtn">Sign Out</button>
+                <span className={`user-chip user-chip-text`}>{username}</span>
+              <button onClick={handleLogout} className="signout-btn">Sign Out</button>
             </>
           ) : (
-            <button onClick={() => openLogin()} className="signInBtn">Sign In</button>
+            <button onClick={() => openLogin()} className="signin-btn glow-btn">Sign In</button>
           )}
         </nav>
       </header>
@@ -193,31 +193,31 @@ export default function App() {
 
         {/* Upload View */}
         {view === 'upload' && (
-          <div className="uploadView">
+          <div className="upload-view">
 
             {/* Hero */}
-            <div className="hero">
-              <div className="heroBadge">AI-Powered Resume Analysis</div>
+            <div className="hero-section">
+              <div className="hero-badge">AI-Powered Resume Analysis</div>
                 <h1 className="hero-title gradient-text" style={{ fontSize: 'clamp(36px, 6vw, 72px)', fontWeight: 900, lineHeight: 1.05, marginBottom: 20, letterSpacing: '-0.03em' }}>
                 Land the Interview.
               </h1>
-              <p className="heroSub">
+              <p className="hero-sub">
                 Your resume gets <strong style={{ color: C.accent }}>6 seconds</strong> of attention.
                 Get an honest AI score and know exactly what to fix before you apply.
               </p>
 
               {/* Social proof counter — Rec #3 */}
               {proofNumber && (
-                <div className="proofRow">
-                  <span className="proofDot" />
-                  <span className="proofText">
+                <div className="proof-row">
+                  <span className="proof-dot" />
+                  <span className="proof-text">
                     <strong style={{ color: '#f1f5f9' }}>{proofNumber}</strong> resumes analyzed
                   </span>
                 </div>
               )}
 
               {!isAuthenticated && (
-                <p className="freeNote">{FREE_ANALYSIS_LIMIT} free analyses — no account needed</p>
+                <p className="free-note">{FREE_ANALYSIS_LIMIT} free analyses — no account needed</p>
               )}
             </div>
 
@@ -226,7 +226,7 @@ export default function App() {
 
             <UploadSection onAnalyze={handleAnalyze} loading={loading} />
 
-            {error && <div className="errorBox">{error}</div>}
+            {error && <div className="error-box">{error}</div>}
 
 
 
@@ -236,16 +236,16 @@ export default function App() {
 
         {/* Result View */}
         {view === 'result' && analysis && (
-          <div className="resultView">
-            <div className="resultToolbar">
-              <button onClick={handleNewAnalysis} className="backBtn">← New Analysis</button>
-              <h2 className="resultTitle">Analysis Results</h2>
+          <div className="result-view">
+            <div className="result-toolbar">
+              <button onClick={handleNewAnalysis} className="back-btn">← New Analysis</button>
+              <h2 className="result-title">Analysis Results</h2>
             </div>
 
             {/* Before / After score delta — Rec #7 */}
             {prevScore != null && prevScore !== analysis.score && (
-              <div className="deltaBanner">
-                <span className="deltaIcon">
+              <div className="delta-banner">
+                <span className="delta-icon">
                   {analysis.score > prevScore ? '↑' : '↓'}
                 </span>
                 <span style={{ color: '#c7d2fe', fontSize: '14px' }}>
@@ -258,9 +258,9 @@ export default function App() {
             )}
 
             {!isAuthenticated && (
-              <div className="nudgeBanner">
+              <div className="nudge-banner">
                 <span>Sign in to save your history and get unlimited analyses</span>
-                <button onClick={() => openLogin()} className="nudgeBtn">Sign In Free</button>
+                <button onClick={() => openLogin()} className="nudge-btn">Sign In Free</button>
               </div>
             )}
 
@@ -276,8 +276,8 @@ export default function App() {
 
         {/* History View */}
         {view === 'history' && (
-          <div className="historyView">
-            <h2 className="sectionTitle">Past Analyses</h2>
+          <div className="history-view">
+            <h2 className="section-title">Past Analyses</h2>
             {historyLoading && history.length === 0
               ? <p style={{ color: C.textMuted, fontSize: '14px' }}>Loading…</p>
               : <HistoryList
@@ -299,7 +299,7 @@ export default function App() {
 
       {/* ── Login Modal ── */}
       {showLoginModal && (
-        <div className="modalOverlay" onClick={(e) => e.target === e.currentTarget && setShowLoginModal(false)}>
+        <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && setShowLoginModal(false)}>
           <LoginPage onLogin={handleLogin} onClose={() => setShowLoginModal(false)} message={loginMessage} />
         </div>
       )}
