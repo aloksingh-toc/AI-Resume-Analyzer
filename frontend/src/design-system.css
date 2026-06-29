@@ -251,3 +251,38 @@ input, button, textarea, select {
 @media (max-width: 700px)  { .hiw-grid { grid-template-columns: 1fr; } }
 @media (max-width: 600px)  { .app-shell { padding: 10px 16px; } .app-main { padding: 24px 14px; } .upload-card { padding: 24px 18px; } .tips-grid { grid-template-columns: 1fr; } .template-grid { grid-template-columns: 1fr; } }
 @media (max-width: 400px)  { .upload-card { padding: 18px 14px; border-radius: var(--radius-md); } }
+
+
+/* App-specific styles that extend design-system */
+.upload-view { display: flex; flex-direction: column; align-items: center; gap: 40px; }
+.hero-section { text-align: center; max-width: 600px; }
+.hero-badge { display: inline-block; background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2); color: #818cf8; padding: 5px 16px; border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 18px; }
+.hero-sub { color: #94a3b8; font-size: 17px; line-height: 1.7; margin-bottom: 14px; }
+.proof-row { display: inline-flex; align-items: center; gap: 8px; background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2); border-radius: 999px; padding: 5px 14px; margin-bottom: 12px; }
+.proof-dot { width: 7px; height: 7px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 6px rgba(34,197,94,0.6); }
+.proof-text { font-size: 13px; color: #94a3b8; }
+.free-note { color: #64748b; font-size: 13px; margin-top: 4px; }
+.error-box { background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.3); color: #ddd6fe; padding: 14px 20px; border-radius: 10px; max-width: 500px; text-align: center; }
+.result-view { width: 100%; overflow-x: hidden; }
+.result-toolbar { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+.back-btn { background: transparent; border: 1px solid rgba(255,255,255,0.08); color: #94a3b8; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; transition: all 0.2s; }
+.back-btn:hover { border-color: rgba(255,255,255,0.15); color: #f1f5f9; }
+.result-title { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.delta-banner { display: flex; align-items: center; gap: 10px; background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2); border-radius: 10px; padding: 10px 16px; margin-bottom: 16px; }
+.delta-icon { font-size: 22px; font-weight: 900; line-height: 1; }
+.nudge-banner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2); border-left: 3px solid #6366f1; border-radius: 10px; padding: 12px 18px; margin-bottom: 20px; color: #93c5fd; font-size: 14px; }
+.nudge-btn { background: linear-gradient(135deg, #6366f1, #8b5cf6); border: none; color: #fff; padding: 6px 16px; border-radius: 7px; cursor: pointer; font-size: 13px; font-weight: 700; white-space: nowrap; }
+.history-view { width: 100%; max-width: 700px; margin: 0 auto; }
+.section-title { font-size: 22px; font-weight: 700; color: #f1f5f9; margin-bottom: 20px; }
+.footer { text-align: center; padding: 20px; border-top: 1px solid rgba(255,255,255,0.06); color: #64748b; font-size: 13px; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(3,7,18,0.88); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 24px; }
+
+.nav-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid transparent; background: transparent; color: #94a3b8; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+.nav-btn-active { background: rgba(255,255,255,0.05); color: #f1f5f9; border: 1px solid rgba(255,255,255,0.08); }
+.nav-badge { background: #6366f1; color: #fff; border-radius: 999px; padding: 1px 7px; font-size: 11px; font-weight: 700; }
+.user-chip { color: #94a3b8; font-size: 13px; padding: 6px 12px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 999px; }
+.signout-btn { padding: 7px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); background: transparent; color: #94a3b8; cursor: pointer; font-size: 13px; }
+.signin-btn { padding: 7px 18px !important; border-radius: 8px !important; font-size: 13px !important; }
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-mark { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #6366f1, #8b5cf6); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 16px; color: #fff; }
+.logo-text { font-size: 17px; font-weight: 700; color: #f1f5f9; letter-spacing: -0.3px; }

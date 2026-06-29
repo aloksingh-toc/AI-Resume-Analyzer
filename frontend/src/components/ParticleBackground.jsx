@@ -1,10 +1,10 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, memo } from 'react'
 
 /**
  * Animated floating particle background using HTML Canvas.
- * Creates a subtle, premium tech-company feel.
+ * Memoized to prevent particle reset on route changes.
  */
-export default function ParticleBackground() {
+export default memo(function ParticleBackground() {
   const canvasRef = useRef(null)
 
   useEffect(() => {
@@ -94,4 +94,4 @@ export default function ParticleBackground() {
       }}
     />
   )
-}
+})

@@ -107,8 +107,8 @@ export default function UploadSection({ onAnalyze, loading }) {
                 disabled={loading}
                 className={s.industryChip}
                 style={{
-                  borderColor: selected ? color : '#c7d2fe',
-                  background: selected ? color + '14' : '#f8faff',
+                  borderColor: selected ? color : 'rgba(255,255,255,0.06)',
+                  background: selected ? color + '14' : 'rgba(255,255,255,0.03)',
                   boxShadow: selected ? `0 0 0 2px ${color}30` : 'none',
                   transform: selected ? 'scale(1.03)' : 'scale(1)',
                 }}

@@ -6,9 +6,11 @@ import { useEffect, useRef } from 'react'
  */
 export default function ConfettiEffect({ active }) {
   const canvasRef = useRef(null)
+  const hasShown = useRef(false)
 
   useEffect(() => {
-    if (!active) return
+    if (!active || hasShown.current) return
+    hasShown.current = true
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')

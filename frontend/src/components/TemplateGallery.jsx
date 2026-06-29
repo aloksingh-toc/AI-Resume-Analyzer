@@ -93,7 +93,7 @@ function TemplatePreview({ category }) {
           srcDoc={tmpl.html}
           style={styles.iframe}
           title="Template Preview"
-          sandbox="allow-same-origin"
+          sandbox="allow-same-origin allow-scripts"
         />
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 
 
@@ -62,7 +62,7 @@ export function useToast() {
     return () => listeners.delete(handler)
   }, [])
 
-  const ToastContainer = () => (
+  const ToastContainer = useCallback(() => (
     <div style={toastStyles.container}>
       {toasts.map(t => (
         <div key={t.id} style={{ ...toastStyles.toast, ...toastStyles[t.type] }}>
@@ -70,7 +70,7 @@ export function useToast() {
         </div>
       ))}
     </div>
-  )
+  ), [toasts])
 
   return { toasts, ToastContainer }
 }
